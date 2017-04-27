@@ -1,0 +1,15 @@
+%nav.blue
+  .nav-wrapper
+    = link_to root_path, class: "brand-logo darken-1", :data => {'turbolinks': 'false'} do
+      %div
+        = image_tag("brand-lepse2.png")
+    %span.brand-title TP Identification System
+    %ul#nav-mobile.right.hide-on-med-and-down
+      -if user_signed_in?
+        %li=current_user.email
+        %li=link_to "Sign out", destroy_user_session_path, method: :delete
+      -else
+        %li
+          =link_to "Sign in", new_user_session_path
+        %li
+          =link_to "Sign up", new_user_registration_path

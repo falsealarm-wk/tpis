@@ -6,10 +6,12 @@
     = csrf_meta_tags
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-  %body
-    %p.notice
-      =notice
-    %p.alert
-      =alert
+  %body.grey.darken-2
+    =render partial: 'layouts/top_panel'
+    .container
+      %p.notice
+        =notice
+      %p.alert
+        =alert
 
-    = yield
+      = yield

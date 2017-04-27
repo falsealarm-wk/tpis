@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170427092616) do
+ActiveRecord::Schema.define(version: 20170427093608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_admin_comments", force: :cascade do |t|
+    t.string   "namespace"
+    t.text     "body"
+    t.string   "resource_type"
+    t.integer  "resource_id"
+    t.string   "author_type"
+    t.integer  "author_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+    t.index ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+  end
 
   create_table "documents", force: :cascade do |t|
     t.string   "code"
@@ -35,9 +49,9 @@ ActiveRecord::Schema.define(version: 20170427092616) do
     t.integer  "employee_id"
     t.integer  "document_id"
     t.datetime "expired_at"
-    t.boolean  "closed"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.boolean  "closed",      default: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.index ["document_id"], name: "index_entries_on_document_id", using: :btree
     t.index ["employee_id", "document_id"], name: "index_entries_on_employee_id_and_document_id", using: :btree
     t.index ["employee_id"], name: "index_entries_on_employee_id", using: :btree
