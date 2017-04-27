@@ -1,0 +1,6 @@
+.row
+  .col.s12.m6.offset-m3
+    =simple_form_for @entry do |f|
+      =f.association :employee
+      =f.association :document
+      =f.button :submit

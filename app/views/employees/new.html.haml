@@ -1,0 +1,9 @@
+.row
+  .col.s12.m6.offset-m3
+    %h3 Добавить работника
+    =simple_form_for @employee do |f|
+      =f.input :name
+      =f.input :department
+      =f.input :email
+      =f.input :phone
+      =f.button :submit

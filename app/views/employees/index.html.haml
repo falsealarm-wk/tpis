@@ -1,0 +1,21 @@
+.row
+  .col.s12.m12
+    %h3 Список работников
+    %table.striped
+      %thead
+        %tr
+          %th Name
+          %th Department
+          %th Email
+          %th Phone
+          %th
+          %th
+      %tbody
+        -@employees.each do |employee|
+          %tr
+            %td=employee.name
+            %td=employee.department
+            %td=employee.email
+            %td=employee.phone
+            %td=link_to "Edit", edit_employee_path(employee)
+            %td=link_to "Delete", employee_path(employee), method: :delete
