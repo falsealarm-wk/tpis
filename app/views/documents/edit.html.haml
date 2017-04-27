@@ -1,0 +1,7 @@
+.row
+  .col.s12.m6.offset-m3
+    %h3 Редактировать техпроцесс
+    =simple_form_for @document do |f|
+      =f.input :code
+      =f.input :barcode
+      =f.button :submit

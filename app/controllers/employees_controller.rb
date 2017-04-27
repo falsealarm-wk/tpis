@@ -2,7 +2,7 @@ class EmployeesController < ApplicationController
   before_action :load_employee, only: [:edit, :update, :destroy]
 
   def index
-    @employees = Employee.all
+    respond_with(@employees = Employee.all)
   end
 
   def new
