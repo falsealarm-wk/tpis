@@ -1,0 +1,67 @@
+@import "materialize"
+@import 'select2'
+@import "dashboard"
+@import "documents"
+
+$input-color: white
+*::-webkit-input-placeholder
+  color: $input-color
+  opacity: 1
+
+*:-moz-placeholder
+  color: $input-color
+  opacity: 1
+
+*::-moz-placeholder
+  color: $input-color
+  opacity: 1
+
+*:-ms-input-placeholder
+  color: $input-color
+  opacity: 1
+
+input[type="text"]
+  color: $input-color
+  &:-webkit-autofill
+    -webkit-text-fill-color: white
+  &:-webkit-autofill:focus
+    -webkit-text-fill-color: white
+
+input:-webkit-autofill
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active
+  transition: background-color 5000s ease-in-out 0s
+
+body input:focus:required:invalid,
+body textarea:focus:required:invalid
+  color: $input-color
+body input:required:valid,
+body textarea:required:valid
+  color: $input-color
+
+html, body
+  -webkit-font-smoothing: antialiased
+  height: 100%
+
+.form-title
+  margin-bottom: 20px
+.barcode
+  // text-align: center
+  // padding: 20px
+  table.barby-barcode
+    display: inline-block
+    border-spacing: 0
+    min-width: 100px
+    width: auto
+
+    td.barby-cell
+      width: 1px
+      height: 40px
+      padding: 0px
+      margin: 0px
+      &.on
+        background: #000

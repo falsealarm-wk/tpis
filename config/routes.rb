@@ -3,8 +3,13 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'dashboard#index'
-
-  resources :entries
+  resources :entries do
+    get :prolong, on: :collection
+    post :extend, on: :collection
+  end
   resources :employees
-  resources :documents
+  resources :documents do
+    get :add_new_document, on: :collection, as: :add_new
+    get :find, on: :collection
+  end
 end

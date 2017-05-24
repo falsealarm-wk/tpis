@@ -1,7 +1,25 @@
 .row
-  .col.s12.m6.offset-m3
-    %h3 Добавить техпроцесс
-    =simple_form_for @document do |f|
-      =f.input :code
-      =f.input :barcode
-      =f.button :submit
+  .col.s12.m8.offset-m2
+    #documents_form.card-panel.blue-grey.center-align
+      %h5.white-text.form-title Добавить техпроцесс
+      =simple_form_for documents_path, url: { action: :create } do |f|
+        .row
+          .documents
+            =render partial: "new_document"
+        .row
+          =link_to "Add document", add_new_documents_path, class: "add_document_link", remote: true
+
+        =f.button :submit
+
+/ .row
+/   .col.s12.m6.offset-m3
+/     #documents_form.card-panel.blue-grey.center-align
+/       %h5.white-text.form-title Добавить техпроцесс
+/       = form_tag '/documents', method: :post do
+/         = label_tag 'to'
+/         = select_tag 'to', nil, style: 'width: 100%', multiple: 'multiple'
+/         = submit_tag "Create"
+
+/ = form_tag documents_path, method: :get do
+/   = text_field_tag 'code', params[:code], placeholder: "Enter document"
+/   = submit_tag 'Search!'

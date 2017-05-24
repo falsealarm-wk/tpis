@@ -1,0 +1,7 @@
+$(".documents").append("<%= j render partial: 'new_document' %>")
+var nextInputs = $(".documents_code input, .documents_barcode input")
+var nextInput = nextInputs.get(nextInputs.length - 2);
+if (nextInput) {
+  nextInput.focus()
+}
+

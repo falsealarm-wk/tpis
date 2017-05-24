@@ -1,0 +1,5 @@
+.row.document
+  =simple_fields_for 'documents[]', Document.new do |d|
+    =d.input :code, wrapper_html: { class: 's6' }
+    =d.input :barcode, wrapper_html: { class: 's6' }
+    .col.s1.preloader

@@ -1,0 +1,21 @@
+.row
+  .col.s12.m12
+    %h3 Журнал выдачи
+    %table.bordered
+      %thead
+        %tr
+          %th Id
+          %th Document
+          %th User
+          %th Expired at
+          %th
+          %th
+      %tbody
+        -@entries.each do |entry|
+          %tr
+            %td=entry.id
+            %td=entry.document.code
+            %td=entry.employee.name
+            %td=entry.expired_at
+            %td=link_to "Edit", edit_entry_path(entry)
+            %td=link_to "Delete", entry_path(entry), method: :delete

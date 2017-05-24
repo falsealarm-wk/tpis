@@ -1,6 +1,11 @@
 .row
   .col.s12.m6.offset-m3
-    =simple_form_for @entry do |f|
-      =f.association :employee
-      =f.association :document
-      =f.button :submit
+    #documents_form.card-panel.blue-grey.center-align
+      %h5.white-text.form-title Добавить техпроцесс
+      = form_tag '/entries', method: :post do
+        .row
+          = label_tag 'entries'
+          = select_tag 'entries', nil, style: 'width: 100%', multiple: 'multiple', name: 'documents[]'
+        .row
+          = select_tag "employee_id", options_from_collection_for_select(Employee.all, "id", "name"), style: 'display: block;'
+        = submit_tag "Create", class: 'btn'
