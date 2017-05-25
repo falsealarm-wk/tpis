@@ -1,22 +1,23 @@
 .row
   .col.s12.m12
-    %h3 Список техпроцессов
-    %table.bordered
-      %thead
-        %tr
-          %th Id
-          %th Code
-          %th Barcode
-          %th Html_barcode
-          %th
-          %th
-      %tbody
-        -@documents.each do |document|
+    .card-panel.blue-grey
+      %h3.white-text Список техпроцессов
+      %table.bordered
+        %thead
           %tr
-            %td=document.id
-            %td=document.code
-            %td=document.barcode
-            %td.barcode
-              =document.html_barcode.to_html.html_safe if document.html_barcode
-            %td=link_to "Edit", edit_document_path(document)
-            %td=link_to "Delete", document_path(document), method: :delete
+            %th Id
+            %th Code
+            %th Barcode
+            %th Html_barcode
+            %th
+            %th
+        %tbody
+          -@documents.each do |document|
+            %tr
+              %td=document.id
+              %td=document.code
+              %td=document.barcode
+              %td.barcode
+                =document.html_barcode.to_html.html_safe if document.html_barcode
+              %td=link_to "Edit", edit_document_path(document)
+              %td=link_to "Delete", document_path(document), method: :delete
