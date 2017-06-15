@@ -1,14 +1,16 @@
 .row
   .col.s12.m12
     .card-panel.blue-grey
-      %h3.white-text Список работников
+      %h4.panel-title.white-text.left Список работников
+      =link_to new_employee_path, class: "add_link btn-floating waves-effect waves-light blue right" do
+        %i.material-icons add
       %table.bordered
         %thead
           %tr
-            %th Name
-            %th Department
-            %th Email
-            %th Phone
+            %th ФИО
+            %th Цех
+            %th Почтовый ящик
+            %th Телефон
             %th
             %th
         %tbody
@@ -18,5 +20,10 @@
               %td=employee.department
               %td=employee.email
               %td=employee.phone
-              %td=link_to "Edit", edit_employee_path(employee)
-              %td=link_to "Delete", employee_path(employee), method: :delete
+              %td
+                =link_to edit_employee_path(employee) do
+                  %i.material-icons edit
+              %td
+                =link_to employee_path(employee), method: :delete, data: { confirm: "Точно удалить?" } do
+                  %i.material-icons delete
+      =paginate @employees

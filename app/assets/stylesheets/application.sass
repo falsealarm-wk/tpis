@@ -2,6 +2,7 @@
 @import 'select2'
 @import "dashboard"
 @import "documents"
+@import "material_icons"
 
 $input-color: white
 *::-webkit-input-placeholder
@@ -42,7 +43,8 @@ body textarea:focus:required:invalid
 body input:required:valid,
 body textarea:required:valid
   color: $input-color
-
+html
+  font-family: 'Segoe Ui', Roboto, sans-serif
 html, body
   -webkit-font-smoothing: antialiased
   height: 100%
@@ -65,3 +67,21 @@ html, body
       margin: 0px
       &.on
         background: #000
+
+table
+  thead
+    color: #ffab40
+    text-transform: uppercase
+    th
+      font-weight: 300
+  tbody
+    color: white
+  a
+    color: #b7b7b7
+
+.panel-title
+  text-transform: uppercase
+  font-size: 26px
+  font-weight: 300
+.add_link
+  margin-top: 10px

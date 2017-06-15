@@ -2,7 +2,8 @@
   .col.s12.m6
     .card.blue-grey.darken-1
       .card-content.white-text
-        %span.card-title Работа с документами
+        %span.card-title.grey-text.text-lighten-1 Работа с документами
+        %i.material-icons.grey-text.text-lighten-4 folder_shared
         %p
           Принятие документа у работника. Выберите операцию сдачи или выдачи
       .card-action
@@ -11,18 +12,20 @@
   .col.s12.m6
     .card.blue-grey.darken-1
       .card-content.white-text
-        %span.card-title Штрихкодирование
+        %span.card-title.grey-text.text-lighten-1 Штрихкодирование
+        %i.material-icons.grey-text.text-lighten-4 print
         %p
           Печать штрихкодов
       .card-action
-        %a{:href => "#"} Напечатать
-        %a{:href => "#"} Список
+        =link_to "Напечатать", new_barcode_path
+        =link_to "Список", barcodes_path
 
 .row
   .col.s12.m6
     .card.blue-grey.darken-1
       .card-content.white-text
-        %span.card-title Учет сотрудников
+        %span.card-title.grey-text.text-lighten-1 Учет сотрудников
+        %i.material-icons.grey-text.text-lighten-4 group
         %p
           Создание и редактирование сотрудников. Получение контактных данных сотрудника
           и его текущих документов
@@ -32,7 +35,8 @@
   .col.s12.m6
     .card.blue-grey.darken-1
       .card-content.white-text
-        %span.card-title Техпроцессы
+        %span.card-title.grey-text.text-lighten-1 Техпроцессы
+        %i.material-icons.grey-text.text-lighten-4 library_books
         %p
           Добавление и редактирование техпроцессов
       .card-action
@@ -42,7 +46,8 @@
   .col.s12.m6
     .card.blue-grey.darken-1
       .card-content.white-text
-        %span.card-title Записи журнала
+        %span.card-title.grey-text.text-lighten-1 Записи журнала
+        %i.material-icons.grey-text.text-lighten-4 history
         %p
           Просмотр журнала выдачи документов. Отправка оповещений и продление.
       .card-action

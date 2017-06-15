@@ -1,15 +1,17 @@
 .row
   .col.s12.m12
     .card-panel.blue-grey
-      %h3.white-text Журнал выдачи
+      %h4.panel-title.white-text.left Журнал выдачи
+      =link_to new_entry_path, class: "add_link btn-floating waves-effect waves-light blue right" do
+        %i.material-icons add
       %table.bordered
         %thead
           %tr
             %th Id
-            %th Document
-            %th User
-            %th Expired at
-            %th Closed
+            %th № техпроцесса
+            %th Работник
+            %th Дата возврата
+            %th Закрыто?
             %th
             %th
         %tbody
@@ -17,8 +19,14 @@
             %tr
               %td=entry.id
               %td=entry.document.code
-              %td=entry.employee.name
-              %td=entry.expired_at
-              %td=entry.closed
-              %td=link_to "Edit", edit_entry_path(entry)
-              %td=link_to "Delete", entry_path(entry), method: :delete
+              %td=entry.try(:employee).try(:name)
+              %td=entry.expired_at.strftime("%d.%m.%Y")
+              %td=bool_to_text(entry.closed)
+              %td
+                =link_to edit_entry_path(entry) do
+                  %i.material-icons edit
+              %td
+                =link_to entry_path(entry), method: :delete, data: { confirm: "Точно удалить?" } do
+                  %i.material-icons delete
+      =paginate @entries
+

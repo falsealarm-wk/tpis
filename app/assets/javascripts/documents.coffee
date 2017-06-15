@@ -1,6 +1,6 @@
 jQuery(document).on 'turbolinks:load', ->
   $('#entries').select2
-    tags: true
+    tags: true,
     ajax: {
       url: '/documents'
       data: (params) ->

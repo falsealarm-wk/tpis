@@ -1,0 +1,12 @@
+.row
+  .col.s12.m6.offset-m3
+    #documents_form.card-panel.blue-grey.center-align
+      %h5.white-text.form-title Напечатать штрихкоды
+
+      = form_tag '/barcodes', method: :post do
+        .row
+          = label_tag 'Выберите количество'
+          %p.range-field
+            = range_field_tag :quantity, nil, max: 20, min: 0
+        .row
+        = submit_tag "Create", class: 'btn'

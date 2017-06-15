@@ -12,4 +12,5 @@ Rails.application.routes.draw do
     get :add_new_document, on: :collection, as: :add_new
     get :find, on: :collection
   end
+  resources :barcodes
 end

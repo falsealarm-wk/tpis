@@ -5,9 +5,9 @@ class DocumentsController < ApplicationController
 
   def index
     if params[:code]
-      @documents = Document.search_by_code(params[:code])
+      @documents = Document.search_by_barcode(params[:code])
     else
-      @documents = Document.all
+      @documents = Document.page(params[:page])
     end
     respond_with(@documents)
   end

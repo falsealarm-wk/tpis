@@ -1,0 +1,18 @@
+.row
+  .col.s12.m12
+    .card-panel.blue-grey
+      %h3.white-text Список штрихкодов
+      %table.bordered
+        %thead
+          %tr
+            %th Id
+            %th Barcode
+            %th Barcode_view
+        %tbody
+          -@barcodes.each do |barcode|
+            %tr
+              %td=barcode.id
+              %td=barcode.barcode
+              %td.barcode
+                / =barcode.png_barcode if barcode.png_barcode
+                =raw(barcode.barcode_view.to_html) if barcode.barcode_view

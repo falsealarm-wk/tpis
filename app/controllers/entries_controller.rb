@@ -8,7 +8,7 @@ class EntriesController < ApplicationController
       documents_ids = employee.entries.where(closed: false).pluck(:document_id)
       @entries = Document.where(id: documents_ids).search_by_barcode(params[:barcode])
     else
-      @entries = Entry.includes(:employee, :document)
+      @entries = Entry.includes(:employee, :document).page(params[:page])
     end
     respond_with(@entries)
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170427093608) do
+ActiveRecord::Schema.define(version: 20170614065101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,13 @@ ActiveRecord::Schema.define(version: 20170427093608) do
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+  end
+
+  create_table "barcodes", force: :cascade do |t|
+    t.string   "barcode"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "printed",    default: false
   end
 
   create_table "documents", force: :cascade do |t|

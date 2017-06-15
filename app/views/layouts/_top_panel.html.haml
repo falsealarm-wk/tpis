@@ -1,9 +1,8 @@
 %nav.blue
   .nav-wrapper
-    = link_to root_path, class: "brand-logo darken-1", :data => {'turbolinks': 'false'} do
-      %div
-        = image_tag("brand-lepse2.png")
-    %span.brand-title TP Identification System
+    = link_to root_path, class: "brand-logo left darken-1", :data => {'turbolinks': 'false'} do
+      = image_tag("brand-lepse2.png")
+    %div.brand-title.center-align Система идентификации ТП
     / %ul#nav-mobile.right.hide-on-med-and-down
     /   -if user_signed_in?
     /     %li=current_user.email

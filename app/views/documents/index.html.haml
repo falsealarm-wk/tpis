@@ -1,14 +1,15 @@
 .row
   .col.s12.m12
     .card-panel.blue-grey
-      %h3.white-text Список техпроцессов
+      %h4.panel-title.white-text.left Список техпроцессов
+      =link_to new_document_path, class: "add_link btn-floating waves-effect waves-light blue right" do
+        %i.material-icons add
       %table.bordered
         %thead
           %tr
             %th Id
-            %th Code
-            %th Barcode
-            %th Html_barcode
+            %th № Техпроцесса
+            %th Штрихкод
             %th
             %th
         %tbody
@@ -16,8 +17,12 @@
             %tr
               %td=document.id
               %td=document.code
-              %td=document.barcode
               %td.barcode
                 =document.html_barcode.to_html.html_safe if document.html_barcode
-              %td=link_to "Edit", edit_document_path(document)
-              %td=link_to "Delete", document_path(document), method: :delete
+              %td
+                =link_to edit_document_path(document) do
+                  %i.material-icons edit
+              %td
+                =link_to document_path(document), method: :delete, data: { confirm: "Точно удалить?" } do
+                  %i.material-icons delete
+      =paginate @documents
