@@ -19,7 +19,7 @@ class BarcodesController < ApplicationController
   end
 
   def index
-    @barcodes = Barcode.page(params[:page])
+    @barcodes = Barcode.order(:created_at).page(params[:page])
     respond_with @barcodes
   end
 

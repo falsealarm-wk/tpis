@@ -4,7 +4,7 @@
       %h5.white-text.form-title Добавить техпроцесс
       =simple_form_for @document do |f|
         .row
-          =f.input :code, wrapper_html: { class: 's12' }
+          =f.input :code, label: '№ Техпроцесса', wrapper_html: { class: 's12' }
         .row
-          =f.input :barcode, wrapper_html: { class: 's12' }
-        =f.button :submit
+          =f.input :barcode, label: 'Штрихкод', wrapper_html: { class: 's12' }
+        =f.button :submit, 'Обновить'
