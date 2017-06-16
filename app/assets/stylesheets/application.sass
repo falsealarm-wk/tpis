@@ -21,7 +21,7 @@ $input-color: white
   color: $input-color
   opacity: 1
 
-input[type="text"]
+input[type="text"],input[type="email"],input[type="tel"]
   color: $input-color
   &:-webkit-autofill
     -webkit-text-fill-color: white
@@ -52,6 +52,7 @@ html, body
 .form-title
   margin-bottom: 20px
 .barcode
+  width: 250px
   // text-align: center
   // padding: 20px
   table.barby-barcode
@@ -85,3 +86,19 @@ table
   font-weight: 300
 .add_link
   margin-top: 10px
+
+footer.page-footer
+  padding-top: 0px
+
+
+body
+  display: flex
+  min-height: 100vh
+  flex-direction: column
+
+main
+  flex: 1 0 auto
+
+.brand-title
+  font-weight: 500
+

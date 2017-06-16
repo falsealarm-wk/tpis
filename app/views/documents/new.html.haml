@@ -1,15 +1,15 @@
 .row
   .col.s12.m8.offset-m2
     #documents_form.card-panel.blue-grey.center-align
-      %h5.white-text.form-title Добавить техпроцесс
+      %h4.panel-title.white-text Добавить техпроцесс
       =simple_form_for documents_path, url: { action: :create } do |f|
         .row
           .documents
             =render partial: "new_document"
         .row
-          =link_to "Add document", add_new_documents_path, class: "add_document_link", remote: true
+          =link_to "Еще", add_new_documents_path, class: "add_document_link", remote: true
 
-        =f.button :submit
+        =f.button :submit, 'Добавить', class: "submit_button"
 
 / .row
 /   .col.s12.m6.offset-m3

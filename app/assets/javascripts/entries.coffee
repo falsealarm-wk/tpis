@@ -25,3 +25,4 @@ jQuery(document).on 'turbolinks:load', ->
     minimumInputLength: 2
     templateResult: (item) -> item.name
     templateSelection: (item) -> item.name
+

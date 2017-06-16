@@ -9,7 +9,6 @@
 //= require_tree .
 
 $(document).on("turbolinks:load", function(){
-  // window.materializeForm.init()
   $('#documents_form').on("keypress",".documents_barcode input", function(event){
     if (event.which == 13){
       event.preventDefault();
@@ -73,5 +72,18 @@ $(document).on("turbolinks:load", function(){
       success: removePreloader
     })
   }
+
+  $('#documents_form').on("keypress",".documents_code input", function(event){
+    if (event.which == 13){
+      event.preventDefault();
+      return false;
+    }
+  })
+  // $('#documents_form').keydown(function(event){
+  //   if(event.keyCode == 13) {
+  //     event.preventDefault();
+  //     return false;
+  //   }
+  // });
 })
 

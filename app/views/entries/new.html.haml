@@ -1,11 +1,11 @@
 .row
   .col.s12.m6.offset-m3
     #documents_form.card-panel.blue-grey.center-align
-      %h5.white-text.form-title Добавить техпроцесс
+      %h4.panel-title.white-text Выдать документы
       = form_tag '/entries', method: :post do
         .row
-          = label_tag 'entries'
+          = label_tag 'Техпроцессы'
           = select_tag 'entries', nil, style: 'width: 100%', multiple: 'multiple', name: 'documents[]'
         .row
           = select_tag "employee_id", options_from_collection_for_select(Employee.all, "id", "name"), style: 'display: block;'
-        = submit_tag "Create", class: 'btn'
+        = submit_tag "Выдать", class: 'btn'

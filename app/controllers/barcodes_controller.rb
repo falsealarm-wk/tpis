@@ -15,11 +15,11 @@ class BarcodesController < ApplicationController
         csv << [barcode.barcode]
       end
     end
-    redirect_to barcodes_path
+    redirect_to root_path
   end
 
   def index
-    @barcodes = Barcode.all
+    @barcodes = Barcode.page(params[:page])
     respond_with @barcodes
   end
 

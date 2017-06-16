@@ -1,11 +1,11 @@
 .row
   .col.s12.m6.offset-m3
     #prolong_form.card-panel.blue-grey.center-align
-      %h4.panel-title.white-text Продление
-      = form_tag '/entries/extend', method: :post do
+      %h4.panel-title.white-text Принять ДОКУМЕНТЫ
+      = form_tag '/entries/close', method: :post do
         .row
           = select_tag "employee_id", options_from_collection_for_select(Employee.all, "id", "name"), style: 'display: block;'
         .row
-          = label_tag 'Продлить документы'
+          = label_tag 'Принять документы'
           = select_tag 'prolong_entries', nil, style: 'width: 100%', multiple: 'multiple', name: 'documents[]'
-        = submit_tag "Продлить", class: 'btn'
+        = submit_tag "Принять", class: 'btn'

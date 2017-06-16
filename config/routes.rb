@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   root 'dashboard#index'
   resources :entries do
     get :prolong, on: :collection
+    get :receive, on: :collection
+    post :close, on: :collection
     post :extend, on: :collection
   end
   resources :employees

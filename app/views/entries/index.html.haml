@@ -12,7 +12,7 @@
             %th Работник
             %th Дата возврата
             %th Закрыто?
-            %th
+            / %th
             %th
         %tbody
           -@entries.each do |entry|
@@ -22,9 +22,9 @@
               %td=entry.try(:employee).try(:name)
               %td=entry.expired_at.strftime("%d.%m.%Y")
               %td=bool_to_text(entry.closed)
-              %td
-                =link_to edit_entry_path(entry) do
-                  %i.material-icons edit
+              / %td
+              /   =link_to edit_entry_path(entry) do
+              /     %i.material-icons edit
               %td
                 =link_to entry_path(entry), method: :delete, data: { confirm: "Точно удалить?" } do
                   %i.material-icons delete

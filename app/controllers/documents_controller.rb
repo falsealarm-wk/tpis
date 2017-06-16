@@ -5,7 +5,7 @@ class DocumentsController < ApplicationController
 
   def index
     if params[:code]
-      @documents = Document.search_by_barcode(params[:code])
+      @documents = Document.search_by_code(params[:code])
     else
       @documents = Document.page(params[:page])
     end
@@ -38,6 +38,10 @@ class DocumentsController < ApplicationController
       end
     end
     respond_with '', location: -> { documents_path }
+  end
+
+  def receive
+
   end
 
   def add_new_document

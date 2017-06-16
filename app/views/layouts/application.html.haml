@@ -8,10 +8,12 @@
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body.grey
     =render partial: 'layouts/top_panel'
-    .container
-      %p.notice
-        =notice
-      %p.alert
-        =alert
+    %main
+      .container
+        %p.notice
+          =notice
+        %p.alert
+          =alert
 
-      = yield
+        = yield
+    =render partial: 'layouts/footer'

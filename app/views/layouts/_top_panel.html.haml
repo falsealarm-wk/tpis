@@ -1,8 +1,8 @@
 %nav.blue
-  .nav-wrapper
+  .nav-wrapper.container
     = link_to root_path, class: "brand-logo left darken-1", :data => {'turbolinks': 'false'} do
       = image_tag("brand-lepse2.png")
-    %div.brand-title.center-align Система идентификации ТП
+    %div.brand-title.left-align Система идентификации ТП
     / %ul#nav-mobile.right.hide-on-med-and-down
     /   -if user_signed_in?
     /     %li=current_user.email

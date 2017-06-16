@@ -1,9 +1,12 @@
 .row
   .col.s12.m6.offset-m3
-    %h3 Добавить работника
-    =simple_form_for @employee do |f|
-      =f.input :name
-      =f.input :department
-      =f.input :email
-      =f.input :phone
-      =f.button :submit
+    .card-panel.blue-grey.center-align
+      %h4.panel-title.white-text Добавить работника
+      =simple_form_for @employee do |f|
+        .row
+          =f.input :name, label: "ФИО", wrapper_html: { class: 's12' }
+          =f.input :department, label: "Цех", wrapper_html: { class: 's12' }
+          =f.input :email, label: "Почтовый ящик", wrapper_html: { class: 's12' }
+          =f.input :phone, label: "Телефон", wrapper_html: { class: 's12' }
+        .row
+          =f.button :submit, "Добавить"

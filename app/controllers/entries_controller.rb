@@ -28,11 +28,26 @@ class EntriesController < ApplicationController
     respond_with(@entry.destroy)
   end
 
+  def prolong
+
+  end
+
+  def receive
+
+  end
 
   def extend
     params["documents"].each do |document_id|
       entry = Entry.where(document_id: document_id, employee_id: params[:employee_id]).first
       entry.update!(expired_at: (entry.expired_at + 1.month))
+    end
+    respond_with '', location: -> { entries_path }
+  end
+
+  def close
+    params["documents"].each do |document_id|
+      entry = Entry.where(document_id: document_id, employee_id: params[:employee_id]).first
+      entry.update!(closed: true)
     end
     respond_with '', location: -> { entries_path }
   end
