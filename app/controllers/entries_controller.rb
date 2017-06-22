@@ -1,6 +1,7 @@
 class EntriesController < ApplicationController
-  before_action :load_entry, only: [:destroy]
+  before_action :load_entry, only: [:destroy, :notify]
   respond_to :json, only: [:index]
+  respond_to :js, only: [:notify]
 
   def index
     if params[:barcode]
@@ -33,7 +34,6 @@ class EntriesController < ApplicationController
   end
 
   def receive
-
   end
 
   def extend
@@ -49,6 +49,12 @@ class EntriesController < ApplicationController
       entry = Entry.where(document_id: document_id, employee_id: params[:employee_id], closed: false).first
       entry.update!(closed: true)
     end
+    respond_with '', location: -> { entries_path }
+  end
+
+  def notify
+    employee = @entry.employee
+    NotificationMailer.notification(employee, @entry.document.code).deliver_later
     respond_with '', location: -> { entries_path }
   end
 

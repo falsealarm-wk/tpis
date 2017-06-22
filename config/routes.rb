@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     get :receive, on: :collection
     post :close, on: :collection
     post :extend, on: :collection
+    post :notify, on: :member
   end
   resources :employees
   resources :documents do
