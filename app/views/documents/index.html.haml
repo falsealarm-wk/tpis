@@ -12,6 +12,7 @@
             %th Штрихкод
             %th
             %th
+            %th
         %tbody
           -@documents.each do |document|
             %tr
@@ -19,6 +20,9 @@
               %td=document.code
               %td.barcode
                 =document.html_barcode.to_html.html_safe if document.html_barcode
+              %td
+                =link_to reprint_document_path(document), method: :post, remote: true do
+                  %i.material-icons local_printshop
               %td
                 =link_to edit_document_path(document) do
                   %i.material-icons edit

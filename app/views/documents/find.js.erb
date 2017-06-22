@@ -1,8 +1,0 @@
-var inputs = $(".documents .document")
-var input = inputs.get(<%= @id %>)
-<% if @document.present? %>
-  input.find('.preloader').html("Ok")
-  // input.lastElementChild.innerHTML = "OK"
-<% else %>
-  $(".barcode_field").show()
-<% end %>

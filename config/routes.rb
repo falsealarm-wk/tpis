@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :employees
   resources :documents do
     get :add_new_document, on: :collection, as: :add_new
-    get :find, on: :collection
+    post :reprint, on: :member
   end
   resources :barcodes
 end

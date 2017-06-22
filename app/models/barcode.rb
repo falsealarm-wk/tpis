@@ -8,11 +8,11 @@ class Barcode < ApplicationRecord
 
   scope :to_print, -> { where(printed: false) }
 
+  after_create :generate_token, if: Proc.new{ |barcode| !barcode.printed }
+
   def number
     self.barcode
   end
-
-  after_create :generate_token
 
   def self.generate_barcode(quantity)
     quantity.times { Barcode.create }

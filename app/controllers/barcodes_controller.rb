@@ -1,7 +1,7 @@
 class BarcodesController < ApplicationController
   respond_to :json
 
-  after_action :set_printed, only: [:create]
+  after_action :print, only: [:create]
 
   def new
   end
@@ -9,12 +9,6 @@ class BarcodesController < ApplicationController
   def create
     quantity = params[:quantity].to_i
     barcodes = Barcode.generate_barcode(quantity)
-    CSV.open("c:/file.csv", "wb") do |csv|
-      csv << ["barcode"]
-      Barcode.to_print.find_each do |barcode|
-        csv << [barcode.barcode]
-      end
-    end
     redirect_to root_path
   end
 
@@ -25,7 +19,8 @@ class BarcodesController < ApplicationController
 
   private
 
-  def set_printed
+  def print
+    BarcodesPrinter.new.perform
     Barcode.to_print.update_all(printed: true)
   end
 end

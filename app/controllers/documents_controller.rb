@@ -1,6 +1,6 @@
 class DocumentsController < ApplicationController
-  before_action :load_document, only: [:edit, :update, :destroy]
-  respond_to :js, only: [:add_new_document, :find]
+  before_action :load_document, only: [:edit, :update, :destroy, :reprint]
+  respond_to :js, only: [:add_new_document, :find, :reprint]
   respond_to :json, only: [:index]
 
   def index
@@ -47,10 +47,12 @@ class DocumentsController < ApplicationController
   def add_new_document
   end
 
-  def find
-    code = params[:code]
-    @id = params[:id]
-    @document = Document.where(code: code).first
+  def reprint
+    barcode = Barcode.find_or_create_by(barcode: @document.barcode) do |barcode|
+      barcode.printed = true
+    end
+    barcodes = Barcode.where(id: barcode.id)
+    BarcodesPrinter.new(barcodes).perform
   end
 
   private
