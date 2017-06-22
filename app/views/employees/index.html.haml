@@ -8,6 +8,7 @@
         %thead
           %tr
             %th ФИО
+            %th Табельный №
             %th Цех
             %th Почтовый ящик
             %th Телефон
@@ -17,6 +18,7 @@
           -@employees.each do |employee|
             %tr
               %td=employee.name
+              %td=employee.uuid
               %td=employee.department
               %td=employee.email
               %td=employee.phone

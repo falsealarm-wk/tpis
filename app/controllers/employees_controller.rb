@@ -15,7 +15,7 @@ class EmployeesController < ApplicationController
 
   def update
     @employee.update(employee_params)
-    respond_with @employee, location: -> { root_path }
+    respond_with @employee, location: -> { employees_path }
   end
 
   def destroy
@@ -30,7 +30,7 @@ class EmployeesController < ApplicationController
   private
 
   def employee_params
-    params.require(:employee).permit(:name, :department, :email, :phone)
+    params.require(:employee).permit(:uuid, :name, :department, :email, :phone)
   end
 
   def load_employee

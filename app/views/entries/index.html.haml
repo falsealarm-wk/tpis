@@ -20,7 +20,7 @@
               %td=entry.id
               %td=entry.document.code
               %td=entry.try(:employee).try(:name)
-              %td=entry.expired_at.strftime("%d.%m.%Y")
+              =expired_entry(entry)
               %td=bool_to_text(entry.closed)
               %td
                 =link_to notify_entry_path(entry), method: :post, remote: true do
