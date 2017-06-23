@@ -1,0 +1,28 @@
+%table.bordered
+  %thead
+    %tr
+      %th Id
+      %th № техпроцесса
+      %th Работник
+      %th Дата возврата
+      %th Закрыто?
+      %th
+      %th
+      %th
+  %tbody
+    -entries.each do |entry|
+      %tr
+        %td=entry.id
+        %td=entry.document.code
+        %td=entry.try(:employee).try(:name)
+        =expired_entry(entry)
+        %td=bool_to_text(entry.closed)
+        %td
+          =link_to extend_entries_path(entry_id: entry.id), method: :post, remote: true, title: 'Продлить' do
+            %i.material-icons schedule
+        %td
+          =link_to notify_entry_path(entry), method: :post, remote: true, title: 'Оповестить' do
+            %i.material-icons notifications
+        %td
+          =link_to entry_path(entry), method: :delete, data: { confirm: "Точно удалить?" }, title: 'Удалить' do
+            %i.material-icons delete

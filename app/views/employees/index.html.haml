@@ -14,6 +14,7 @@
             %th Телефон
             %th
             %th
+            %th
         %tbody
           -@employees.each do |employee|
             %tr
@@ -23,9 +24,17 @@
               %td=employee.email
               %td=employee.phone
               %td
+                =link_to employee_entries_path(employee), remote: true do
+                  %i.material-icons list
+              %td
                 =link_to edit_employee_path(employee) do
                   %i.material-icons edit
               %td
                 =link_to employee_path(employee), method: :delete, data: { confirm: "Точно удалить?" } do
                   %i.material-icons delete
       =paginate @employees
+
+#modal1.modal.bottom-sheet
+  .modal-content.blue-grey
+
+

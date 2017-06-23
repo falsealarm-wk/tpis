@@ -10,7 +10,9 @@ Rails.application.routes.draw do
     post :extend, on: :collection
     post :notify, on: :member
   end
-  resources :employees
+  resources :employees do
+    resources :entries, only: [:index]
+  end
   resources :documents do
     get :add_new_document, on: :collection, as: :add_new
     post :reprint, on: :member
