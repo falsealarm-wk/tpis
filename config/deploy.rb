@@ -5,7 +5,7 @@ set :application, "tpis"
 set :repo_url, "git@github.com:falsealarm-wk/tpis.git"
 set :deploy_to, '/home/okatav/tpis'
 set :deploy_user, "okatav"
-
+set :bundle_flags, "--no_deployment"
 set :sidekiq_config, -> { File.join(shared_path, 'config', 'sidekiq.yml') }
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -24,7 +24,7 @@ set :sidekiq_config, -> { File.join(shared_path, 'config', 'sidekiq.yml') }
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml", "config/secrets.yml", ".env", "config/sidekiq.yml"
+append :linked_files, "config/database.yml", "config/secrets.yml", "config/.env", "config/sidekiq.yml"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
@@ -37,3 +37,15 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+
+# namespace :deploy do
+
+#   task :rm_mingw32 do
+#     puts "    modifying Gemfile.lock ... removing mingw32 platform ext. before re-bundling on LINUX"
+#     run "sed 's/-x86-mingw32//' #{release_path}/Gemfile.lock > #{release_path}/Gemfile.tmp && mv #{release_path}/Gemfile.tmp #{release_path}/Gemfile.lock"
+#     run "sed -n '/PLATFORMS/ a\  ruby' #{release_path}/Gemfile.lock"
+#   end
+
+# end
+
+# before("bundler:install", "deploy:rm_mingw32")
