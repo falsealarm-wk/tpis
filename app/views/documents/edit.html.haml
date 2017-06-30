@@ -1,7 +1,7 @@
 .row
-  .col.s12.m8.offset-m2
-    #documents_form.card-panel.blue-grey.center-align
-      %h5.white-text.form-title Редактировать техпроцесс
+  .col.s12.m6.offset-m3
+    .card-panel.blue-grey.center-align
+      %h4.panel-title.white-text Редактировать техпроцесс
       =simple_form_for @document do |f|
         .row
           =f.input :code, label: '№ Техпроцесса', wrapper_html: { class: 's12' }

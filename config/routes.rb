@@ -18,4 +18,8 @@ Rails.application.routes.draw do
     post :reprint, on: :member
   end
   resources :barcodes
+
+  # scope host: 'http://172.16.34.239:8080' do
+  #   get 'Integration/barcodes/Execute' => 'barcodes#null', as: :test
+  # end
 end

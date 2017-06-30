@@ -1,0 +1,10 @@
+.row
+  .col.s12.m8.offset-m2
+    .card-panel.blue-grey.center-align
+      %h4.panel-title.white-text Редактировать запись
+      =simple_form_for @entry do |f|
+        .row
+          =f.input :expired_at, label: "Дата возврата", as: :date, input_html: { value: f.object.expired_at.strftime("%d.%m.%Y")}, wrapper_html: { class: 's12' }
+        .row
+          =f.input :closed, label: "Закрыто?",wrapper_html: { class: 's12' }
+        =f.button :submit, 'Обновить'

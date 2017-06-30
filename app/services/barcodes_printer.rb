@@ -1,6 +1,7 @@
+require 'net/http'
 class BarcodesPrinter
   def initialize(barcodes=Barcode.to_print)
-    @file_path = ENV['PRINT_FILE_PATH']
+    @uri = URI.parse(ENV['PRINT_FILE_URI'])
     @barcodes = barcodes
   end
 
@@ -8,12 +9,21 @@ class BarcodesPrinter
     print_barcodes
   end
 
+  def get_api_call
+    http = Net::HTTP.new(@uri.host, @uri.port)
+    request = Net::HTTP::Post.new(@uri.request_uri, 'Content-Type' => 'application/json')
+    barcodes_string = @barcodes.pluck(:barcode).join(",")
+    request.body = {'array': barcodes_string}.to_json
+    http.request(request).body
+  end
+
   def print_barcodes
-    CSV.open(@file_path, "wb") do |csv|
-      csv << ["barcode"]
-      @barcodes.find_each do |barcode|
-        csv << [barcode.barcode]
-      end
-    end
+    get_api_call()
+    # CSV.open(@file_path, "wb") do |csv|
+    #   csv << ["barcode"]
+    #   @barcodes.find_each do |barcode|
+    #     csv << [barcode.barcode]
+    #   end
+    # end
   end
 end

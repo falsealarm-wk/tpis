@@ -104,6 +104,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
+    dbf (3.0.5)
     devise (4.2.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -363,6 +364,7 @@ DEPENDENCIES
   capistrano-sidekiq
   chunky_png
   coffee-rails (~> 4.2)
+  dbf
   devise
   dotenv-rails
   factory_girl_rails

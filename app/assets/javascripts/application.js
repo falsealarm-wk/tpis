@@ -9,6 +9,26 @@
 //= require_tree .
 
 $(document).on("turbolinks:load", function(){
+  $('#employee_id').select2()
+  var picker = $('#entry_expired_at').pickadate({
+    monthsFull: [ 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря' ],
+    monthsShort: [ 'янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек' ],
+    weekdaysFull: [ 'воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота' ],
+    weekdaysShort: [ 'вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб' ],
+    today: 'сегодня',
+    clear: '',
+    close: 'закрыть',
+    firstDay: 1,
+    format: 'dd.mm.yyyy',
+    formatSubmit: 'dd/mm/yyyy',
+    hiddenName: true,
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15,
+    onClose: function() {
+      $(document.activeElement).blur()
+    },
+
+  });
   $('#documents_form').on("keypress",".documents_barcode input", function(event){
     if (event.which == 13){
       event.preventDefault();

@@ -52,6 +52,7 @@
           Просмотр журнала выдачи документов. Отправка оповещений и продление.
       .card-action
         =link_to "Продлить", prolong_entries_path
-        =link_to "Список", entries_path
+        =link_to "Список", entries_path(archive: :false)
+        =link_to "Архив", entries_path(archive: :true)
 
 

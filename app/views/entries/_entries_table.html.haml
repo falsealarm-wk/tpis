@@ -24,5 +24,8 @@
           =link_to notify_entry_path(entry), method: :post, remote: true, title: 'Оповестить' do
             %i.material-icons notifications
         %td
+          =link_to edit_entry_path(entry), title: 'Редактировать' do
+            %i.material-icons edit
+        %td
           =link_to entry_path(entry), method: :delete, data: { confirm: "Точно удалить?" }, title: 'Удалить' do
             %i.material-icons delete

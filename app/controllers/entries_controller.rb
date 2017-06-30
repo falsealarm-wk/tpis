@@ -1,18 +1,22 @@
 class EntriesController < ApplicationController
-  before_action :load_entry, only: [:destroy, :notify]
+  before_action :load_entry, only: [:edit, :update, :destroy, :notify]
   respond_to :json, only: [:index]
   respond_to :js, only: [:index,:notify]
 
   def index
     if params[:barcode]
       employee = Employee.find(params[:employee_id])
-      documents_ids = employee.entries.where(closed: false).pluck(:document_id)
+      documents_ids = employee.open_entries.pluck(:document_id)
       @entries = Document.where(id: documents_ids).search_by_barcode(params[:barcode])
     elsif params[:employee_id]
       employee = Employee.find(params[:employee_id])
       @entries = employee.open_entries
     else
-      @entries = Entry.includes(:employee, :document).page(params[:page])
+      if params[:archive] == 'true'
+        @entries = Entry.includes(:employee, :document).where(closed: true).page(params[:page])
+      else
+        @entries = Entry.includes(:employee, :document).where(closed: false).page(params[:page])
+      end
     end
     respond_with(@entries)
   end
@@ -26,6 +30,15 @@ class EntriesController < ApplicationController
       entry = Entry.create(document_id: document_id, employee_id: params[:employee_id])
     end
     respond_with '', location: -> { entries_path }
+  end
+
+  def edit
+    respond_with(@entry)
+  end
+
+  def update
+    @entry.update(entry_params)
+    respond_with @entry, location: -> { entries_path }
   end
 
   def destroy
@@ -67,6 +80,10 @@ class EntriesController < ApplicationController
   end
 
   private
+
+  def entry_params
+    params.require(:entry).permit(:expired_at, :closed)
+  end
 
   def load_entry
     @entry = Entry.find(params[:id])
