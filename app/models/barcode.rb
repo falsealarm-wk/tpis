@@ -2,9 +2,9 @@ class Barcode < ApplicationRecord
   include HasBarcode
 
   has_barcode :barcode_view,
-      :outputter => :html,
-      :type => :code_128,
-      :value => Proc.new { |p| p.number }
+      outputter: :html,
+      type: :code_128,
+      value: Proc.new { |p| p.number }
 
   scope :to_print, -> { where(printed: false) }
 
