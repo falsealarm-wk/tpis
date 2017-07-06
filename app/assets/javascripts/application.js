@@ -2,7 +2,6 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require materialize-sprockets
-
 //= require_tree ./templates
 //= require underscore
 //= require select2

@@ -4,6 +4,7 @@
       %th Id
       %th № техпроцесса
       %th Работник
+      %th Дата выдачи
       %th Дата возврата
       %th Закрыто?
       %th
@@ -15,6 +16,7 @@
         %td=entry.id
         %td=entry.document.code
         %td=entry.try(:employee).try(:name)
+        =beautiful_date(entry.created_at)
         =expired_entry(entry)
         %td=bool_to_text(entry.closed)
         %td
