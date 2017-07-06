@@ -1,6 +1,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require DataTables
 //= require materialize-sprockets
 //= require_tree ./templates
 //= require underscore
@@ -41,6 +42,50 @@ $(document).on("turbolinks:load", function(){
       // }
     }
   })
+
+  var entries_table = $('#entries_table').DataTable({
+    columnDefs: [{
+          targets: 1,
+          render: $.fn.dataTable.render.ellipsis( 20 )
+    }],
+    fixedColumns: true,
+    paging: false,
+    // searching: false,
+    info:     false,
+    // ordering: false,
+    "ajax": {
+      "dataSrc": "",
+      url: '/entries.json?archive=false'
+    },
+    columns: [
+      { data: 'id' },
+      { data: 'document', 'sWidth': '10%'  },
+      { data: 'employee' },
+      { data: 'created_at' },
+      { data: 'expired_at' },
+      { data: 'closed' },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Продлить' data-remote='true' rel='nofollow' data-method='post' href='/entries/extend?entry_id="+oData.id+"'><i class='material-icons'>schedule</i></a>");
+        }
+      },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Оповестить' data-remote='true' rel='nofollow' data-method='post' href='"+oData.url+"/notify'><i class='material-icons'>notifications</i></a>");
+        }
+      },
+      { data: 'id',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Редактировать' href='"+oData.url+"/edit'><i class='material-icons'>edit</i></a>");
+        }
+      },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Удалить' data-confirm='Точно удалить?' data-remote='true' rel='nofollow' data-method='delete' href='"+oData.url+"'><i class='material-icons'>delete</i></a>");
+        }
+      }
+    ]
+  });
 
 
   // var typingTimer;                //timer identifier

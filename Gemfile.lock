@@ -10,6 +10,7 @@ GIT
 
 GEM
   remote: https://rubygems.org/
+  remote: https://rails-assets.org/
   specs:
     actioncable (5.0.2)
       actionpack (= 5.0.2)
@@ -230,6 +231,9 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 5.0.2)
       sprockets-rails (>= 2.0.0)
+    rails-assets-DataTables (1.10.12)
+      rails-assets-jquery (>= 1.7.0)
+    rails-assets-jquery (3.1.0)
     rails-dom-testing (2.0.2)
       activesupport (>= 4.2.0, < 6.0)
       nokogiri (~> 1.6)
@@ -307,10 +311,6 @@ GEM
     slim (3.0.7)
       temple (~> 0.7.6)
       tilt (>= 1.3.3, < 2.1)
-    smart_listing (1.0.0)
-      coffee-rails
-      kaminari (>= 0.15.1)
-      rails (>= 3.2)
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -379,6 +379,7 @@ DEPENDENCIES
   pg_search
   puma (~> 3.0)
   rails (~> 5.0.2)
+  rails-assets-DataTables!
   redis-rails
   responders
   rspec-rails
@@ -387,7 +388,6 @@ DEPENDENCIES
   sidekiq
   simple_form
   skim!
-  smart_listing
   turbolinks (~> 5)
   tzinfo-data
   uglifier (>= 1.3.0)
