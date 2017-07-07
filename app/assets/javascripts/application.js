@@ -43,6 +43,17 @@ $(document).on("turbolinks:load", function(){
     }
   })
 
+  function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+
+  var isArchive = getParameterByName('archive');
   var entries_table = $('#entries_table').DataTable({
     columnDefs: [{
           targets: 1,
@@ -55,18 +66,18 @@ $(document).on("turbolinks:load", function(){
     // ordering: false,
     "ajax": {
       "dataSrc": "",
-      url: '/entries.json?archive=false'
+      url: '/entries.json?archive='+isArchive
     },
     columns: [
       { data: 'id' },
-      { data: 'document', 'sWidth': '10%'  },
+      { data: 'document' },
       { data: 'employee' },
       { data: 'created_at' },
       { data: 'expired_at' },
       { data: 'closed' },
-      { data: 'url',
+      { data: 'id',
         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-          $(nTd).html("<a title='Продлить' data-remote='true' rel='nofollow' data-method='post' href='/entries/extend?entry_id="+oData.id+"'><i class='material-icons'>schedule</i></a>");
+          $(nTd).html("<a title='Продлить' data-remote='true' rel='nofollow' data-method='post' href='/entries/extend?entry_id="+oData.id+"&archive="+isArchive+"'><i class='material-icons'>schedule</i></a>");
         }
       },
       { data: 'url',
@@ -74,7 +85,45 @@ $(document).on("turbolinks:load", function(){
           $(nTd).html("<a title='Оповестить' data-remote='true' rel='nofollow' data-method='post' href='"+oData.url+"/notify'><i class='material-icons'>notifications</i></a>");
         }
       },
-      { data: 'id',
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Редактировать' href='"+oData.url+"/edit?archive="+isArchive+"'><i class='material-icons'>edit</i></a>");
+        }
+      },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Удалить' data-confirm='Точно удалить?' data-remote='true' rel='nofollow' data-method='delete' href='"+oData.url+"?archive="+isArchive+"'><i class='material-icons'>delete</i></a>");
+        }
+      }
+    ]
+  });
+
+  var employees_table = $('#employees_table').DataTable({
+    columnDefs: [{
+          targets: 1,
+          render: $.fn.dataTable.render.ellipsis( 20 )
+    }],
+    fixedColumns: true,
+    scrollY:        '50vh',
+    scrollCollapse: true,
+    paging: false,
+    info:     false,
+    "ajax": {
+      "dataSrc": "",
+      url: '/employees.json'
+    },
+    columns: [
+      { data: 'name' },
+      { data: 'uuid' },
+      { data: 'department' },
+      { data: 'email' },
+      { data: 'phone' },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Оповестить' data-remote='true' rel='nofollow' href='"+oData.url+"/entries'><i class='material-icons'>list</i></a>");
+        }
+      },
+      { data: 'url',
         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
           $(nTd).html("<a title='Редактировать' href='"+oData.url+"/edit'><i class='material-icons'>edit</i></a>");
         }

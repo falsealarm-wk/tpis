@@ -1,8 +1,8 @@
 class EmployeesController < ApplicationController
   before_action :load_employee, only: [:edit, :update, :destroy]
-
+  respond_to :json, only: :index
   def index
-    respond_with(@employees = Employee.page(params[:page]))
+    respond_with(@employees = Employee.all)
   end
 
   def new

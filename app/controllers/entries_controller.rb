@@ -38,15 +38,14 @@ class EntriesController < ApplicationController
 
   def update
     @entry.update(entry_params)
-    respond_with @entry, location: -> { entries_path }
+    respond_with @entry, location: -> {  entries_path( archive: params[:archive]) }
   end
 
   def destroy
-    respond_with(@entry.destroy)
+    respond_with @entry.destroy, location: -> { entries_path( archive: params[:archive]) }
   end
 
   def prolong
-
   end
 
   def receive
@@ -62,7 +61,7 @@ class EntriesController < ApplicationController
         entry.update!(expired_at: (entry.expired_at + 1.month))
       end
     end
-    respond_with '', location: -> { entries_path }
+    respond_with '', location: -> { entries_path( archive: params[:archive]) }
   end
 
   def close
