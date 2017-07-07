@@ -7,7 +7,7 @@ class DocumentsController < ApplicationController
     if params[:code]
       @documents = Document.search_by_code(params[:code])
     else
-      @documents = Document.page(params[:page])
+      @documents = Document.all
     end
     respond_with(@documents)
   end

@@ -68,6 +68,9 @@ $(document).on("turbolinks:load", function(){
       "dataSrc": "",
       url: '/entries.json?archive='+isArchive
     },
+    "language": {
+                  "url": "assets/dataTables.russian.lang"
+    },
     columns: [
       { data: 'id' },
       { data: 'document' },
@@ -99,10 +102,6 @@ $(document).on("turbolinks:load", function(){
   });
 
   var employees_table = $('#employees_table').DataTable({
-    columnDefs: [{
-          targets: 1,
-          render: $.fn.dataTable.render.ellipsis( 20 )
-    }],
     fixedColumns: true,
     scrollY:        '50vh',
     scrollCollapse: true,
@@ -111,6 +110,9 @@ $(document).on("turbolinks:load", function(){
     "ajax": {
       "dataSrc": "",
       url: '/employees.json'
+    },
+    "language": {
+                  "url": "assets/dataTables.russian.lang"
     },
     columns: [
       { data: 'name' },
@@ -121,6 +123,46 @@ $(document).on("turbolinks:load", function(){
       { data: 'url',
         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
           $(nTd).html("<a title='Оповестить' data-remote='true' rel='nofollow' href='"+oData.url+"/entries'><i class='material-icons'>list</i></a>");
+        }
+      },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Редактировать' href='"+oData.url+"/edit'><i class='material-icons'>edit</i></a>");
+        }
+      },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Удалить' data-confirm='Точно удалить?' data-remote='true' rel='nofollow' data-method='delete' href='"+oData.url+"'><i class='material-icons'>delete</i></a>");
+        }
+      }
+    ]
+  });
+
+  var documents_table = $('#documents_table').DataTable({
+    columnDefs: [{
+          targets: 1,
+          render: $.fn.dataTable.render.ellipsis( 20 )
+    }],
+    fixedColumns: true,
+    scrollY:        '50vh',
+    scrollCollapse: true,
+    // paging: false,
+    "pageLength": 100,
+    info:     false,
+    "ajax": {
+      "dataSrc": "",
+      url: '/documents.json'
+    },
+    "language": {
+                  "url": "assets/dataTables.russian.lang"
+    },
+    columns: [
+      { data: 'id' },
+      { data: 'code' },
+      { data: 'barcode' },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Перепечатать' data-remote='true' data-method='post' rel='nofollow' href='"+oData.url+"/reprint'><i class='material-icons'>print</i></a>");
         }
       },
       { data: 'url',
@@ -198,7 +240,7 @@ $(document).on("turbolinks:load", function(){
   //     return false;
   //   }
   // });
-
+  $.fn.dataTableExt.sErrMode = "console";
   Materialize.updateTextFields();
   $('.modal').modal();
 })
