@@ -1,0 +1,16 @@
+%h5
+  Сотрудник
+  =@employee.name
+  ,
+  =@employee.department
+%p
+  Запросил следующие документы:
+%table.bordered
+  %thead
+    %tr
+      %th № техпроцесса
+  %tbody
+    -@entries.each do |entry|
+      %tr
+        %td=entry
+

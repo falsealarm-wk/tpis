@@ -9,4 +9,5 @@ class Employee < ApplicationRecord
 
   validates :uuid, uniqueness: true
   validates :name, uniqueness: true
+  validates :name, :department, presence: true
 end

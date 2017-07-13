@@ -1,5 +1,6 @@
 class EntriesController < ApplicationController
   before_action :load_entry, only: [:edit, :update, :destroy, :notify]
+  before_action :check_documents, only: :create
   respond_to :json, only: [:index]
   respond_to :js, only: [:index,:notify]
 
@@ -88,4 +89,12 @@ class EntriesController < ApplicationController
     @entry = Entry.find(params[:id])
   end
 
+  def check_documents
+    @entry = Entry.new
+    if !params["documents"]
+      @entry.errors.add(:base, :empty)
+      flash.now[:notice] = 'Выберите необходимые техпроцессы'
+      respond_with @entry
+    end
+  end
 end

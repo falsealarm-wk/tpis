@@ -1,6 +1,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require best_in_place
 //= require DataTables
 //= require materialize-sprockets
 //= require_tree ./templates
@@ -60,6 +61,8 @@ $(document).on("turbolinks:load", function(){
           render: $.fn.dataTable.render.ellipsis( 20 )
     }],
     fixedColumns: true,
+    scrollY:        '50vh',
+    scrollCollapse: true,
     paging: false,
     // searching: false,
     info:     false,
@@ -178,6 +181,113 @@ $(document).on("turbolinks:load", function(){
     ]
   });
 
+  var requests_table = $('#requests_table').DataTable({
+    // columnDefs: [{
+    //       targets: 1,
+    //       render: $.fn.dataTable.render.ellipsis( 20 )
+    // }],
+    fixedColumns: true,
+    scrollY:        '50vh',
+    scrollCollapse: true,
+    paging: false,
+    // searching: false,
+    info:     false,
+    // ordering: false,
+    "ajax": {
+      "dataSrc": "",
+      url: '/requests.json'
+    },
+    "language": {
+                  "url": "assets/dataTables.russian.lang"
+    },
+    columns: [
+      {
+        "className":      'details-control',
+        "orderable":      false,
+        "data":           null,
+        "defaultContent": ''
+      },
+      { data: 'id' },
+      { data: 'employee' },
+      { data: 'created_at' },
+      { data: 'closed' }
+     ]
+  });
+
+  var rows = []
+  var details_table = $('#details_table').DataTable({
+      columnDefs: [{
+            targets: 1,
+            render: $.fn.dataTable.render.ellipsis( 20 )
+      }],
+      fixedColumns: true,
+      // scrollY:        '50vh',
+      // scrollCollapse: true,
+      paging: false,
+      searching: false,
+      info:     false,
+      ordering: false,
+      'data': rows,
+      "language": {
+                    "url": "assets/dataTables.russian.lang"
+      },
+      columns: [
+        { data: 'document' },
+        { data: 'created_at' },
+        { data: 'expired_at' },
+        { data: 'closed' },
+        // { data: 'url',
+        //   "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+        //     $(nTd).html("<a title='Редактировать' href='"+oData.url+"/edit?archive="+isArchive+"'><i class='material-icons'>edit</i></a>");
+        //   }
+        // },
+        // { data: 'url',
+        //   "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+        //     $(nTd).html("<a title='Удалить' data-confirm='Точно удалить?' data-remote='true' rel='nofollow' data-method='delete' href='"+oData.url+"?archive="+isArchive+"'><i class='material-icons'>delete</i></a>");
+        //   }
+        // }
+      ]
+  });
+
+  // function format ( d ) {
+  //     // `d` is the original data object for the row
+  //   return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+  //       '<tr>'+
+  //           '<td>Full name:</td>'+
+  //           '<td>'+d.id+'</td>'+
+  //       '</tr>'+
+  //       '<tr>'+
+  //           '<td>Extension number:</td>'+
+  //           '<td>'+d.employee+'</td>'+
+  //       '</tr>'+
+  //       '<tr>'+
+  //           '<td>Extra info:</td>'+
+  //           '<td>And any further details here (images etc)...</td>'+
+  //       '</tr>'+
+  //   '</table>';
+  // }
+
+  function format ( d ) {
+    rows = d.entries
+    details_table.clear().rows.add(rows).draw();
+    return $('#outer_table').html()
+  }
+
+  $('#requests_table tbody').on('click', 'td.details-control', function () {
+    var tr = $(this).closest('tr');
+    var row = requests_table.row( tr );
+
+    if ( row.child.isShown() ) {
+      // This row is already open - close it
+      row.child.hide();
+      tr.removeClass('shown');
+    }
+    else {
+      // Open this row
+      row.child( format(row.data()) ).show();
+      tr.addClass('shown');
+    }
+  });
 
   // var typingTimer;                //timer identifier
   // var doneTypingInterval = 5000;  //time in ms (5 seconds)

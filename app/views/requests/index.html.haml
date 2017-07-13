@@ -1,0 +1,26 @@
+.row
+  .col.s12.m12
+    .card-panel.blue-grey
+      .row
+        %h4.panel-title.white-text.left Журнал заявок
+      .row
+        %table#requests_table.bordered
+          %thead
+            %tr.no-border
+              %th
+              %th ID
+              %th Работник
+              %th Дата создания
+              %th Закрыто?
+        #outer_table{style: "display: none"}
+          %table#details_table.bordered{cellspacing: "0", width: "100%"}
+            %thead
+              %tr
+                %th № техпроцесса
+                %th Дата выдачи
+                %th Дата возврата
+                %th Закрыто?
+                / %th
+                / %th
+
+

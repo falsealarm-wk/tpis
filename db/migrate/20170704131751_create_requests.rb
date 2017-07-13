@@ -3,7 +3,7 @@ class CreateRequests < ActiveRecord::Migration[5.0]
     create_table :requests do |t|
       t.boolean :sent, default: false
       t.boolean :closed, default: false
-      t.references :user, foreign_key: true
+      t.references :employee, foreign_key: true
 
       t.timestamps
     end

@@ -1,5 +1,8 @@
 class Request < ApplicationRecord
-  belongs_to :user
+  belongs_to :employee
+  has_many :entries, dependent: :destroy
 
-  has_many :entries, through:
+  accepts_nested_attributes_for :entries
+
+  scope :active, -> { includes(:entries).where(sent: true, closed: false)}
 end
