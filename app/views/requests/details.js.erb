@@ -1,0 +1,16 @@
+var requestId = <%= @request.id  %>
+var request = $("#request_"+requestId)
+var requests_table = $("#requests_table").DataTable()
+var row = requests_table.row(request)
+if ( row.child.isShown() ) {
+  // This row is already open - close it
+  row.child.hide();
+  request.find(".details_link").html("<i class='material-icons'>add</i>")
+  request.removeClass('shown');
+}
+else {
+  // Open this row
+  row.child( "<%= j render partial: 'requests/details_table' %>" ).show();
+  request.find(".details_link").html("<i class='material-icons'>remove</i>")
+  request.addClass('shown');
+}

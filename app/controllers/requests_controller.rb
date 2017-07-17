@@ -1,8 +1,11 @@
 class RequestsController < ApplicationController
   before_action :check_documents, only: :create
+  before_action :load_request, only: [:details, :close]
   after_action :send_request, only: :create
 
   respond_to :json, only: :index
+  respond_to :js, only: [:details, :close]
+
 
   def index
     @requests = Request.active
@@ -34,6 +37,16 @@ class RequestsController < ApplicationController
     end
   end
 
+  def details
+    @entries = @request.entries.includes(:document)
+    respond_with @entries
+  end
+
+  def close
+    @request.close
+    respond_with @request
+  end
+
 
   private
 
@@ -48,5 +61,9 @@ class RequestsController < ApplicationController
 
   def send_request
     RequestSenderJob.perform_now(@request)
+  end
+
+  def load_request
+    @request = Request.find(params[:id])
   end
 end

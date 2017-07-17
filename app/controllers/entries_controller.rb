@@ -1,8 +1,8 @@
 class EntriesController < ApplicationController
-  before_action :load_entry, only: [:edit, :update, :destroy, :notify]
+  before_action :load_entry, only: [:edit, :update, :destroy, :notify, :check]
   before_action :check_documents, only: :create
   respond_to :json, only: [:index]
-  respond_to :js, only: [:index,:notify]
+  respond_to :js, only: [:index,:notify,:check]
 
   def index
     if params[:barcode]
@@ -77,6 +77,12 @@ class EntriesController < ApplicationController
     employee = @entry.employee
     NotificationMailer.notification(employee, @entry.document.code).deliver_later
     respond_with '', location: -> { entries_path }
+  end
+
+  def check
+    @entry.check
+    @request = @entry.request
+    respond_with @entry
   end
 
   private

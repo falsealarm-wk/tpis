@@ -1,0 +1,12 @@
+var entryId = <%= @entry.id %>
+var requestId = <%= @request.id %>
+var entry = $("#entry_"+entryId)
+var request = $("#request_"+requestId)
+if (<%= @request.checked %>) {
+  request.find('td:nth-child(2)').html("<i class='material-icons green-text'>done</i>")
+  request.find('td:last-child').html("<a class='' title='Выдать' data-remote='true' rel='nofollow' href='requests/"+requestId+"/close'><i class='material-icons green-text'>send</i></a>")
+} else {
+  request.find('td:nth-child(2)').html("<i class='material-icons grey-text'>loop</i>")
+  request.find('td:last-child').html("")
+}
+entry.replaceWith("<%= j render partial: 'requests/details_record', locals: {entry: @entry} %>")

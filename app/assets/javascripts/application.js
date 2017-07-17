@@ -201,16 +201,39 @@ $(document).on("turbolinks:load", function(){
                   "url": "assets/dataTables.russian.lang"
     },
     columns: [
-      {
-        "className":      'details-control',
-        "orderable":      false,
-        "data":           null,
-        "defaultContent": ''
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a class='details_link' title='Подробнее' data-remote='true' rel='nofollow' href='"+oData.url+"/details'><i class='material-icons'>add</i></a>");
+        }
+      },
+      // {
+      //   "className":      'details-control',
+      //   "orderable":      false,
+      //   "data":           null,
+      //   "defaultContent": ''
+      // },
+      { data: 'checked',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          if (oData.checked) {
+            $(nTd).html("<i class='material-icons green-text'>done</i>");
+          } else {
+            $(nTd).html("<i class='material-icons grey-text'>loop</i>");
+          }
+        }
       },
       { data: 'id' },
       { data: 'employee' },
       { data: 'created_at' },
-      { data: 'closed' }
+      { data: 'closed' },
+      { data: 'checked',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          if (oData.checked) {
+            $(nTd).html("<a class='' title='Выдать' data-remote='true' rel='nofollow' href='"+oData.url+"/close'><i class='material-icons green-text'>send</i></a>");
+          } else {
+            $(nTd).html("");
+          }
+        }
+      },
      ]
   });
 
@@ -273,70 +296,21 @@ $(document).on("turbolinks:load", function(){
     return $('#outer_table').html()
   }
 
-  $('#requests_table tbody').on('click', 'td.details-control', function () {
-    var tr = $(this).closest('tr');
-    var row = requests_table.row( tr );
+  // $('#requests_table tbody').on('click', 'td.details-control', function () {
+  //   var tr = $(this).closest('tr');
+  //   var row = requests_table.row( tr );
 
-    if ( row.child.isShown() ) {
-      // This row is already open - close it
-      row.child.hide();
-      tr.removeClass('shown');
-    }
-    else {
-      // Open this row
-      row.child( format(row.data()) ).show();
-      tr.addClass('shown');
-    }
-  });
-
-  // var typingTimer;                //timer identifier
-  // var doneTypingInterval = 5000;  //time in ms (5 seconds)
-  // var codeInput;
-  // //on keyup, start the countdown
-  // $('.documents').on("keyup", "input[name='documents[][code]']", function(event){
-  //   var codeInput = $("input[name='documents[][code]']")
-  //   var id = codeInput.index(event.target)
-  //   console.log(id)
-  //   showPreloader();
-  //   clearTimeout(typingTimer);
-  //   var text = codeInput.val()
-  //   if (text) {
-  //     typingTimer = setTimeout(function() {
-  //       ajaxCall(text, id)
-  //     }, doneTypingInterval);
+  //   if ( row.child.isShown() ) {
+  //     // This row is already open - close it
+  //     row.child.hide();
+  //     tr.removeClass('shown');
   //   }
-  // })
-  // $("input[name='documents[][code]']").keyup(function(){
-  //     showPreloader();
-  //     clearTimeout(typingTimer);
-  //     var text = $(this).val()
-  //     if (text) {
-  //       typingTimer = setTimeout(function() {
-  //         ajaxCall(text)
-  //       }, doneTypingInterval);
-  //     }
+  //   else {
+  //     // Open this row
+  //     row.child( format(row.data()) ).show();
+  //     tr.addClass('shown');
+  //   }
   // });
-
-  //user is "finished typing," do something
-  function showPreloader() {
-    $(".preloader").html(JST['templates/preloader'])
-  }
-
-  function removePreloader() {
-    $(".preloader").html(" ")
-  }
-  function ajaxCall(text, id) {
-    console.log(text)
-    $.ajax({
-      url: "/documents/find",
-      contentType: 'javascript',
-      data: {
-        code: text,
-        id: id
-      },
-      success: removePreloader
-    })
-  }
 
   $('#documents_form').on("keypress",".documents_code input", function(event){
     if (event.which == 13){

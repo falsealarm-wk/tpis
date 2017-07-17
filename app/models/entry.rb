@@ -1,13 +1,16 @@
 class Entry < ApplicationRecord
   belongs_to :employee
   belongs_to :document
+  belongs_to :request
 
   before_create :set_expiration
 
   default_scope { order(closed: :asc, created_at: :desc)}
 
-  # scope :without_exired { }
-  # scope :only_exired { }
+  def check
+    update!(checked: !checked)
+  end
+
   private
 
   def set_expiration

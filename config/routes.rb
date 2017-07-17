@@ -3,13 +3,17 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'dashboard#index'
-  resources :requests
+  resources :requests do
+    get :details, on: :member
+    get :close, on: :member
+  end
   resources :entries do
     get :prolong, on: :collection
     get :receive, on: :collection
     post :close, on: :collection
     post :extend, on: :collection
     post :notify, on: :member
+    put :check, on: :member
   end
   resources :employees do
     resources :entries, only: [:index]

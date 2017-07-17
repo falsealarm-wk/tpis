@@ -1,0 +1,12 @@
+%table#details_table.bordered{cellspacing: "0", width: "100%"}
+  %thead
+    %tr
+      %th
+      %th № техпроцесса
+      %th Дата выдачи
+      %th Дата возврата
+      %th Закрыто?
+      / %th
+      / %th
+  %tbody
+    =render partial: 'requests/details_record', collection: @entries, as: :entry
