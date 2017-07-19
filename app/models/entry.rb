@@ -4,6 +4,7 @@ class Entry < ApplicationRecord
   belongs_to :request
 
   before_create :set_expiration
+  before_create :take_document
 
   default_scope { order(closed: :asc, created_at: :desc)}
 
@@ -17,4 +18,7 @@ class Entry < ApplicationRecord
     self.expired_at = Time.zone.now + 1.month
   end
 
+  def take_document
+    document.update!(taken: true)
+  end
 end

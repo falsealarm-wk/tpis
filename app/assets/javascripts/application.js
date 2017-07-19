@@ -318,6 +318,12 @@ $(document).on("turbolinks:load", function(){
       return false;
     }
   })
+  $('#requests_form').on("click",".remove_record_link", function(event){
+    event.preventDefault();
+    event.target.closest('.record').remove()
+
+  })
+
   // $('#documents_form').keydown(function(event){
   //   if(event.keyCode == 13) {
   //     event.preventDefault();

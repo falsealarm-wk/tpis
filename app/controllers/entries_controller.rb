@@ -28,7 +28,10 @@ class EntriesController < ApplicationController
 
   def create
     params["documents"].each do |document_id|
-      entry = Entry.create(document_id: document_id, employee_id: params[:employee_id])
+      document = Document.find(document_id)
+      if !document.taken
+        entry = Entry.create(document_id: document_id, employee_id: params[:employee_id])
+      end
     end
     respond_with '', location: -> { entries_path }
   end

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :requests do
     get :details, on: :member
     get :close, on: :member
+    get :add_new_record, on: :collection
   end
   resources :entries do
     get :prolong, on: :collection

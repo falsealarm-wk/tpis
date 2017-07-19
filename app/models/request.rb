@@ -6,6 +6,8 @@ class Request < ApplicationRecord
 
   scope :active, -> { includes(:entries).where(sent: true, closed: false) }
 
+  after_create :send_request
+
   def checked
     if entries.where(checked: false).count > 0
       return false
@@ -15,6 +17,15 @@ class Request < ApplicationRecord
   end
 
   def close
-    update!(closed: !closed) if checked
+    if checked
+      transaction do
+        update!(closed: !closed)
+        entries.update_all(created_at: Time.zone.now, expired_at: Time.zone.now + 1.month)
+      end
+    end
+  end
+
+  def send_request
+    RequestSenderJob.perform_now(self)
   end
 end

@@ -1,6 +1,6 @@
 .row
   .col.s12.m6.offset-m3
-    #documents_form.card-panel.blue-grey.center-align
+    #requests_form.card-panel.blue-grey.center-align
       %h4.panel-title.white-text Запросить документы
       = form_tag '/requests', method: :post do
         .row
@@ -8,4 +8,25 @@
           = select_tag 'entries', nil, style: 'width: 100%', multiple: 'multiple', name: 'documents[]'
         .row
           = select_tag "employee_id", options_from_collection_for_select(Employee.all, "id", "name"), style: 'display: block;'
+        .row
+          .card-panel.blue-grey.center-align
+            %p.white-text
+              Если Вы не нашли необходимые документы, введите их название полностью в форму ниже
+        .row
+          .records
+            =render partial: 'new_record'
+          =link_to "Еще", add_new_record_requests_path, class: "add_record_link", remote: true
         = submit_tag "Запросить", class: 'btn'
+
+
+/ .row
+/   .col.s12.m8.offset-m2
+/     .card-panel.blue-grey.center-align
+/     #documents_form.card-panel.blue-grey.center-align
+/       =simple_form_for documents_path, url: { controller: :documents, action: :create } do |f|
+/         .row
+/           .documents
+/             =render partial: "documents/new_document"
+/         .row
+
+/         =f.button :submit, 'Добавить', class: "submit_button"

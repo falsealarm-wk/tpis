@@ -1,0 +1,7 @@
+.row.record
+  =simple_fields_for 'records[]', Document.new do |d|
+    =d.input :code, label: '№ Техпроцесса', placeholder: 'введите название техпроцесса', wrapper_html: { class: 's11' }
+    .col.s1
+      =link_to '', class: 'red-text remove_record_link' do
+        %i.material-icons remove
+    / # =d.input :barcode, label: 'Штрихкод', wrapper_html: { class: 's6' }
