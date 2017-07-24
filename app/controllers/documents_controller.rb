@@ -4,10 +4,18 @@ class DocumentsController < ApplicationController
   respond_to :json, only: [:index]
 
   def index
-    if params[:code]
+    if params[:barcode]
+      employee = Employee.find(params[:employee_id])
+      documents_ids = employee.open_entries.pluck(:document_id)
+      @documents = Document.where(id: documents_ids).search_by_barcode(params[:barcode])
+    elsif params[:employee_id]
+      employee = Employee.find(params[:employee_id])
+      documents_ids = employee.open_entries.pluck(:document_id)
+      @documents = Document.where(id: documents_ids).search_by_barcode(params[:barcode])
+    elsif params[:code]
       @documents = Document.search_by_code(params[:code])
     else
-      @documents = Document.page(params[:page])
+      @documents = Document.all
     end
     respond_with(@documents)
   end
@@ -32,7 +40,7 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    params["documents"].each do |document|
+    params["documents"].each do |id, document|
       if (document[:code] && document[:barcode])
         document = Document.create(document_params(document))
       end

@@ -1,8 +1,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require best_in_place
+//= require DataTables
 //= require materialize-sprockets
-
 //= require_tree ./templates
 //= require underscore
 //= require select2
@@ -43,55 +44,273 @@ $(document).on("turbolinks:load", function(){
     }
   })
 
-
-  // var typingTimer;                //timer identifier
-  // var doneTypingInterval = 5000;  //time in ms (5 seconds)
-  // var codeInput;
-  // //on keyup, start the countdown
-  // $('.documents').on("keyup", "input[name='documents[][code]']", function(event){
-  //   var codeInput = $("input[name='documents[][code]']")
-  //   var id = codeInput.index(event.target)
-  //   console.log(id)
-  //   showPreloader();
-  //   clearTimeout(typingTimer);
-  //   var text = codeInput.val()
-  //   if (text) {
-  //     typingTimer = setTimeout(function() {
-  //       ajaxCall(text, id)
-  //     }, doneTypingInterval);
-  //   }
-  // })
-  // $("input[name='documents[][code]']").keyup(function(){
-  //     showPreloader();
-  //     clearTimeout(typingTimer);
-  //     var text = $(this).val()
-  //     if (text) {
-  //       typingTimer = setTimeout(function() {
-  //         ajaxCall(text)
-  //       }, doneTypingInterval);
-  //     }
-  // });
-
-  //user is "finished typing," do something
-  function showPreloader() {
-    $(".preloader").html(JST['templates/preloader'])
+  function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
 
-  function removePreloader() {
-    $(".preloader").html(" ")
-  }
-  function ajaxCall(text, id) {
-    console.log(text)
-    $.ajax({
-      url: "/documents/find",
-      contentType: 'javascript',
-      data: {
-        code: text,
-        id: id
+  var isArchive = getParameterByName('archive');
+  var entries_table = $('#entries_table').DataTable({
+    columnDefs: [{
+          targets: 1,
+          render: $.fn.dataTable.render.ellipsis( 20 )
+    }],
+    fixedColumns: true,
+    scrollY:        '50vh',
+    scrollCollapse: true,
+    paging: false,
+    // searching: false,
+    info:     false,
+    // ordering: false,
+    "ajax": {
+      "dataSrc": "",
+      url: '/entries.json?archive='+isArchive
+    },
+    "language": {
+                  "url": "assets/dataTables.russian.lang"
+    },
+    columns: [
+      { data: 'id' },
+      { data: 'document' },
+      { data: 'employee' },
+      { data: 'created_at' },
+      { data: 'expired_at' },
+      { data: 'closed' },
+      { data: 'id',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Продлить' data-remote='true' rel='nofollow' data-method='post' href='/entries/extend?entry_id="+oData.id+"&archive="+isArchive+"'><i class='material-icons'>schedule</i></a>");
+        }
       },
-      success: removePreloader
-    })
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Оповестить' data-remote='true' rel='nofollow' data-method='post' href='"+oData.url+"/notify'><i class='material-icons'>notifications</i></a>");
+        }
+      },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Редактировать' href='"+oData.url+"/edit?archive="+isArchive+"'><i class='material-icons'>edit</i></a>");
+        }
+      },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Удалить' data-confirm='Точно удалить?' data-remote='true' rel='nofollow' data-method='delete' href='"+oData.url+"?archive="+isArchive+"'><i class='material-icons'>delete</i></a>");
+        }
+      }
+    ]
+  });
+
+  var employees_table = $('#employees_table').DataTable({
+    fixedColumns: true,
+    scrollY:        '50vh',
+    scrollCollapse: true,
+    paging: false,
+    info:     false,
+    "ajax": {
+      "dataSrc": "",
+      url: '/employees.json'
+    },
+    "language": {
+                  "url": "assets/dataTables.russian.lang"
+    },
+    columns: [
+      { data: 'name' },
+      { data: 'uuid' },
+      { data: 'department' },
+      { data: 'email' },
+      { data: 'phone' },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Оповестить' data-remote='true' rel='nofollow' href='"+oData.url+"/entries'><i class='material-icons'>list</i></a>");
+        }
+      },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Редактировать' href='"+oData.url+"/edit'><i class='material-icons'>edit</i></a>");
+        }
+      },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Удалить' data-confirm='Точно удалить?' data-remote='true' rel='nofollow' data-method='delete' href='"+oData.url+"'><i class='material-icons'>delete</i></a>");
+        }
+      }
+    ]
+  });
+
+  var documents_table = $('#documents_table').DataTable({
+    columnDefs: [{
+          targets: 1,
+          render: $.fn.dataTable.render.ellipsis( 20 )
+    }],
+    fixedColumns: true,
+    scrollY:        '50vh',
+    scrollCollapse: true,
+    // paging: false,
+    "pageLength": 100,
+    info:     false,
+    "ajax": {
+      "dataSrc": "",
+      url: '/documents.json'
+    },
+    "language": {
+                  "url": "assets/dataTables.russian.lang"
+    },
+    columns: [
+      { data: 'id' },
+      { data: 'code' },
+      { data: 'barcode' },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Перепечатать' data-remote='true' data-method='post' rel='nofollow' href='"+oData.url+"/reprint'><i class='material-icons'>print</i></a>");
+        }
+      },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Редактировать' href='"+oData.url+"/edit'><i class='material-icons'>edit</i></a>");
+        }
+      },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Удалить' data-confirm='Точно удалить?' data-remote='true' rel='nofollow' data-method='delete' href='"+oData.url+"'><i class='material-icons'>delete</i></a>");
+        }
+      }
+    ]
+  });
+
+  var requests_table = $('#requests_table').DataTable({
+    // columnDefs: [{
+    //       targets: 1,
+    //       render: $.fn.dataTable.render.ellipsis( 20 )
+    // }],
+    fixedColumns: true,
+    scrollY:        '50vh',
+    scrollCollapse: true,
+    paging: false,
+    // searching: false,
+    info:     false,
+    // ordering: false,
+    "ajax": {
+      "dataSrc": "",
+      url: '/requests.json'
+    },
+    "language": {
+                  "url": "assets/dataTables.russian.lang"
+    },
+    columns: [
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a class='details_link' title='Подробнее' data-remote='true' rel='nofollow' href='"+oData.url+"/details'><i class='material-icons'>add</i></a>");
+        }
+      },
+      // {
+      //   "className":      'details-control',
+      //   "orderable":      false,
+      //   "data":           null,
+      //   "defaultContent": ''
+      // },
+      { data: 'checked',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          if (oData.checked) {
+            $(nTd).html("<i class='material-icons green-text'>done</i>");
+          } else {
+            $(nTd).html("<i class='material-icons grey-text'>loop</i>");
+          }
+        }
+      },
+      { data: 'id' },
+      { data: 'employee' },
+      { data: 'created_at' },
+      { data: 'closed' },
+      { data: 'checked',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          if (oData.checked) {
+            $(nTd).html("<a class='' title='Выдать' data-remote='true' rel='nofollow' href='"+oData.url+"/close'><i class='material-icons green-text'>send</i></a>");
+          } else {
+            $(nTd).html("");
+          }
+        }
+      },
+     ]
+  });
+
+  var rows = []
+  var details_table = $('#details_table').DataTable({
+      columnDefs: [{
+            targets: 1,
+            render: $.fn.dataTable.render.ellipsis( 20 )
+      }],
+      fixedColumns: true,
+      // scrollY:        '50vh',
+      // scrollCollapse: true,
+      paging: false,
+      searching: false,
+      info:     false,
+      ordering: false,
+      'data': rows,
+      "language": {
+                    "url": "assets/dataTables.russian.lang"
+      },
+      columns: [
+        { data: 'document' },
+        { data: 'created_at' },
+        { data: 'expired_at' },
+        { data: 'closed' },
+        // { data: 'url',
+        //   "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+        //     $(nTd).html("<a title='Редактировать' href='"+oData.url+"/edit?archive="+isArchive+"'><i class='material-icons'>edit</i></a>");
+        //   }
+        // },
+        // { data: 'url',
+        //   "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+        //     $(nTd).html("<a title='Удалить' data-confirm='Точно удалить?' data-remote='true' rel='nofollow' data-method='delete' href='"+oData.url+"?archive="+isArchive+"'><i class='material-icons'>delete</i></a>");
+        //   }
+        // }
+      ]
+  });
+
+  // function format ( d ) {
+  //     // `d` is the original data object for the row
+  //   return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+  //       '<tr>'+
+  //           '<td>Full name:</td>'+
+  //           '<td>'+d.id+'</td>'+
+  //       '</tr>'+
+  //       '<tr>'+
+  //           '<td>Extension number:</td>'+
+  //           '<td>'+d.employee+'</td>'+
+  //       '</tr>'+
+  //       '<tr>'+
+  //           '<td>Extra info:</td>'+
+  //           '<td>And any further details here (images etc)...</td>'+
+  //       '</tr>'+
+  //   '</table>';
+  // }
+
+  function format ( d ) {
+    rows = d.entries
+    details_table.clear().rows.add(rows).draw();
+    return $('#outer_table').html()
   }
+
+  // $('#requests_table tbody').on('click', 'td.details-control', function () {
+  //   var tr = $(this).closest('tr');
+  //   var row = requests_table.row( tr );
+
+  //   if ( row.child.isShown() ) {
+  //     // This row is already open - close it
+  //     row.child.hide();
+  //     tr.removeClass('shown');
+  //   }
+  //   else {
+  //     // Open this row
+  //     row.child( format(row.data()) ).show();
+  //     tr.addClass('shown');
+  //   }
+  // });
 
   $('#documents_form').on("keypress",".documents_code input", function(event){
     if (event.which == 13){
@@ -99,13 +318,19 @@ $(document).on("turbolinks:load", function(){
       return false;
     }
   })
+  $('#requests_form').on("click",".remove_record_link", function(event){
+    event.preventDefault();
+    event.target.closest('.record').remove()
+
+  })
+
   // $('#documents_form').keydown(function(event){
   //   if(event.keyCode == 13) {
   //     event.preventDefault();
   //     return false;
   //   }
   // });
-
+  $.fn.dataTableExt.sErrMode = "console";
   Materialize.updateTextFields();
   $('.modal').modal();
 })

@@ -1,0 +1,29 @@
+%h5
+  Сотрудник
+  =@employee.name
+  ,
+  =@employee.department
+
+-if @entries.any?
+  %p
+    Запросил следующие документы:
+  %table.bordered
+    %thead
+      %tr
+        %th № техпроцесса
+    %tbody
+      -@entries.each do |entry|
+        %tr
+          %td=entry
+
+-if @new_documents.any?
+  %p
+    Добавил новые техпроцессы
+  %table.bordered
+    %thead
+      %tr
+        %th № техпроцесса
+    %tbody
+      -@new_documents.each do |document|
+        %tr
+          %td=document

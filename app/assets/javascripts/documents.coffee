@@ -15,6 +15,7 @@ jQuery(document).on 'turbolinks:load', ->
             {
               id: el.id
               name: "#{el.code}"
+              taken: el.taken
             }
           )
         }
@@ -22,5 +23,14 @@ jQuery(document).on 'turbolinks:load', ->
     }
     escapeMarkup: (markup) -> markup
     minimumInputLength: 2
-    templateResult: (item) -> item.name
-    templateSelection: (item) -> item.name
+    templateResult: (item) ->
+      if item.taken
+        "<span class='taken'>"+item.name+" - выдано</span>"
+      else
+        item.name
+
+    templateSelection: (item) ->
+      if item.taken
+        "<span class='taken'>"+item.name+"</span>"
+      else
+        item.name

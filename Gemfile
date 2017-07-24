@@ -4,15 +4,15 @@ git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
+gem 'best_in_place'
+gem 'rails-assets-DataTables', source: 'https://rails-assets.org'
 gem 'dbf'
 gem 'whenever', :require => false
 gem 'redis-rails'
 gem 'sidekiq'
 gem 'kaminari'
 gem 'material_icons'
-gem 'prawn'
 gem 'has_barcode'
-gem 'chunky_png'
 gem 'pg_search'
 gem 'select2-rails'
 gem 'underscore-rails'

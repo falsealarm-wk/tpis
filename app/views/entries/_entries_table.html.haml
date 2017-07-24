@@ -1,31 +1,34 @@
-%table.bordered
+%table#entries_table.bordered{cellspacing: "0", width: "100%"}
   %thead
     %tr
       %th Id
       %th № техпроцесса
       %th Работник
+      %th Дата выдачи
       %th Дата возврата
       %th Закрыто?
       %th
       %th
       %th
+      %th
   %tbody
-    -entries.each do |entry|
-      %tr
-        %td=entry.id
-        %td=entry.document.code
-        %td=entry.try(:employee).try(:name)
-        =expired_entry(entry)
-        %td=bool_to_text(entry.closed)
-        %td
-          =link_to extend_entries_path(entry_id: entry.id), method: :post, remote: true, title: 'Продлить' do
-            %i.material-icons schedule
-        %td
-          =link_to notify_entry_path(entry), method: :post, remote: true, title: 'Оповестить' do
-            %i.material-icons notifications
-        %td
-          =link_to edit_entry_path(entry), title: 'Редактировать' do
-            %i.material-icons edit
-        %td
-          =link_to entry_path(entry), method: :delete, data: { confirm: "Точно удалить?" }, title: 'Удалить' do
-            %i.material-icons delete
+    / -entries.each do |entry|
+    /   %tr
+    /     %td=entry.id
+    /     %td=entry.document.code
+    /     %td=entry.try(:employee).try(:name)
+    /     =beautiful_date(entry.created_at)
+    /     =expired_entry(entry)
+    /     %td=bool_to_text(entry.closed)
+    /     %td
+    /       =link_to extend_entries_path(entry_id: entry.id), method: :post, remote: true, title: 'Продлить' do
+    /         %i.material-icons schedule
+    /     %td
+    /       =link_to notify_entry_path(entry), method: :post, remote: true, title: 'Оповестить' do
+    /         %i.material-icons notifications
+    /     %td
+    /       =link_to edit_entry_path(entry), title: 'Редактировать' do
+    /         %i.material-icons edit
+    /     %td
+    /       =link_to entry_path(entry), method: :delete, data: { confirm: "Точно удалить?" }, title: 'Удалить' do
+    /         %i.material-icons delete

@@ -1,14 +1,11 @@
 class EntriesController < ApplicationController
-  before_action :load_entry, only: [:edit, :update, :destroy, :notify]
+  before_action :load_entry, only: [:edit, :update, :destroy, :notify, :check]
+  before_action :check_documents, only: :create
   respond_to :json, only: [:index]
-  respond_to :js, only: [:index,:notify]
+  respond_to :js, only: [:index,:notify,:check]
 
   def index
-    if params[:barcode]
-      employee = Employee.find(params[:employee_id])
-      documents_ids = employee.open_entries.pluck(:document_id)
-      @entries = Document.where(id: documents_ids).search_by_barcode(params[:barcode])
-    elsif params[:employee_id]
+    if params[:employee_id]
       employee = Employee.find(params[:employee_id])
       @entries = employee.open_entries
     else
@@ -18,7 +15,7 @@ class EntriesController < ApplicationController
         @entries = Entry.includes(:employee, :document).where(closed: false).page(params[:page])
       end
     end
-    respond_with(@entries)
+    respond_with @entries
   end
 
   def new
@@ -27,7 +24,10 @@ class EntriesController < ApplicationController
 
   def create
     params["documents"].each do |document_id|
-      entry = Entry.create(document_id: document_id, employee_id: params[:employee_id])
+      document = Document.find(document_id)
+      if !document.taken
+        entry = Entry.create(document_id: document_id, employee_id: params[:employee_id])
+      end
     end
     respond_with '', location: -> { entries_path }
   end
@@ -38,15 +38,14 @@ class EntriesController < ApplicationController
 
   def update
     @entry.update(entry_params)
-    respond_with @entry, location: -> { entries_path }
+    respond_with @entry, location: -> {  entries_path( archive: params[:archive]) }
   end
 
   def destroy
-    respond_with(@entry.destroy)
+    respond_with @entry.destroy, location: -> { entries_path( archive: params[:archive]) }
   end
 
   def prolong
-
   end
 
   def receive
@@ -62,13 +61,14 @@ class EntriesController < ApplicationController
         entry.update!(expired_at: (entry.expired_at + 1.month))
       end
     end
-    respond_with '', location: -> { entries_path }
+    respond_with '', location: -> { entries_path( archive: params[:archive]) }
   end
 
   def close
     params["documents"].each do |document_id|
       entry = Entry.where(document_id: document_id, employee_id: params[:employee_id], closed: false).first
       entry.update!(closed: true)
+      entry.document.release
     end
     respond_with '', location: -> { entries_path }
   end
@@ -77,6 +77,12 @@ class EntriesController < ApplicationController
     employee = @entry.employee
     NotificationMailer.notification(employee, @entry.document.code).deliver_later
     respond_with '', location: -> { entries_path }
+  end
+
+  def check
+    @entry.check
+    @request = @entry.request
+    respond_with @entry
   end
 
   private
@@ -89,4 +95,12 @@ class EntriesController < ApplicationController
     @entry = Entry.find(params[:id])
   end
 
+  def check_documents
+    @entry = Entry.new
+    if !params["documents"]
+      @entry.errors.add(:base, :empty)
+      flash.now[:notice] = 'Выберите необходимые техпроцессы'
+      respond_with @entry
+    end
+  end
 end

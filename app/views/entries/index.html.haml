@@ -1,9 +1,10 @@
 .row
   .col.s12.m12
     .card-panel.blue-grey
-      %h4.panel-title.white-text.left Журнал выдачи
-      =link_to new_entry_path, class: "add_link btn-floating waves-effect waves-light blue right" do
-        %i.material-icons add
-      =render partial: 'entries_table', locals: { entries: @entries }
-      =paginate @entries
+      .row
+        %h4.panel-title.white-text.left Журнал выдачи
+        =link_to new_entry_path, class: "add_link btn-floating waves-effect waves-light blue right" do
+          %i.material-icons add
+      .row
+        =render partial: 'entries_table', locals: { entries: @entries }
 

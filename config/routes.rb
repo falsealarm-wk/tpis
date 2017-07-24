@@ -3,12 +3,19 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'dashboard#index'
+  resources :requests do
+    get :details, on: :member
+    put :verify_documents, on: :member
+    get :close, on: :member
+    get :add_new_record, on: :collection
+  end
   resources :entries do
     get :prolong, on: :collection
     get :receive, on: :collection
     post :close, on: :collection
     post :extend, on: :collection
     post :notify, on: :member
+    put :check, on: :member
   end
   resources :employees do
     resources :entries, only: [:index]
@@ -19,7 +26,4 @@ Rails.application.routes.draw do
   end
   resources :barcodes
 
-  # scope host: 'http://172.16.34.239:8080' do
-  #   get 'Integration/barcodes/Execute' => 'barcodes#null', as: :test
-  # end
 end

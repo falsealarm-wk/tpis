@@ -1,0 +1,11 @@
+%tr{id: "entry_#{entry.id}"}
+  %td
+    =link_to check_entry_path(entry), method: :put, remote: true do
+      -if entry.checked?
+        %i.material-icons check_box
+      -else
+        %i.material-icons check_box_outline_blank
+  %td=entry.document.code
+  %td=entry.created_at.strftime("%d.%m.%Y")
+  %td=entry.expired_at.strftime("%d.%m.%Y")
+  %td=bool_to_text(entry.closed)
