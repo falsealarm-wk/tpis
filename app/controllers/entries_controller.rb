@@ -19,7 +19,7 @@ class EntriesController < ApplicationController
         @entries = Entry.includes(:employee, :document).where(closed: false).page(params[:page])
       end
     end
-    respond_with(@entries)
+    respond_with @entries
   end
 
   def new
@@ -72,6 +72,7 @@ class EntriesController < ApplicationController
     params["documents"].each do |document_id|
       entry = Entry.where(document_id: document_id, employee_id: params[:employee_id], closed: false).first
       entry.update!(closed: true)
+      entry.document.release
     end
     respond_with '', location: -> { entries_path }
   end

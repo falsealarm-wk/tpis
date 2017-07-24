@@ -1,12 +1,29 @@
-%table#details_table.bordered{cellspacing: "0", width: "100%"}
-  %thead
-    %tr
-      %th
-      %th № техпроцесса
-      %th Дата выдачи
-      %th Дата возврата
-      %th Закрыто?
-      / %th
-      / %th
-  %tbody
-    =render partial: 'requests/details_record', collection: @entries, as: :entry
+-if @entries.any?
+  %table#details_table.bordered{cellspacing: "0", width: "100%"}
+    %thead
+      %tr
+        %th
+        %th № техпроцесса
+        %th Дата выдачи
+        %th Дата возврата
+        %th Закрыто?
+        / %th
+        / %th
+    %tbody
+      =render partial: 'requests/details_record', collection: @entries, as: :entry
+
+-if @new_documents.try(:any?)
+  #documents_form.card-panel.blue-grey.center-align
+    =simple_form_for verify_documents_request_path, method: :put, url: { action: :verify_documents}, remote: true do |f|
+      .row
+        .documents
+          -@new_documents.each do |document|
+            .row.document
+              =simple_fields_for 'documents[]', document do |d|
+                / =d.input :id, hidden: true
+                =d.input :code, label: '№ Техпроцесса', wrapper_html: { class: 's6' }
+                =d.input :barcode, label: 'Штрихкод', wrapper_html: { class: 's6' }
+
+
+      =f.button :submit, 'Сохранить', class: "submit_button"
+

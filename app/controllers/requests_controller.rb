@@ -1,10 +1,10 @@
 class RequestsController < ApplicationController
   before_action :check_documents, only: :create
-  before_action :load_request, only: [:details, :close]
+  before_action :load_request, only: [:details, :close, :verify_documents]
   # after_action :send_request, only: :create
 
   respond_to :json, only: :index
-  respond_to :js, only: [:details, :close]
+  respond_to :js, only: [:details, :close, :verify_documents]
 
 
   def index
@@ -19,7 +19,7 @@ class RequestsController < ApplicationController
     @documents.each do |document|
       @request.entries << Entry.new(document_id: document.id, employee_id: params[:employee_id])
     end
-    @request.save! if @request.entries.any?
+    @request.save! if (@request.entries.any? || @request.documents.any?)
     respond_with @request, location: -> { root_path }
   end
 
@@ -37,8 +37,22 @@ class RequestsController < ApplicationController
   #   end
   # end
 
+  def verify_documents
+    params["documents"].try(:each) do |id, document|
+      if (document[:code] && document[:barcode])
+        new_document = Document.find(id)
+        new_document.update!(code: document[:code], barcode: document[:barcode])
+        new_document.convert_to_entry
+      end
+    end
+    @entries = @request.entries
+    respond_with @request
+  end
+
+
   def details
     @entries = @request.entries.includes(:document)
+    @new_documents = @request.documents
     respond_with @entries
   end
 
@@ -46,7 +60,6 @@ class RequestsController < ApplicationController
     @request.close
     respond_with @request
   end
-
 
   private
 
@@ -58,8 +71,8 @@ class RequestsController < ApplicationController
       flash.now[:notice] = 'Выберите необходимые техпроцессы'
       respond_with @request
     else
-      params["records"].try(:each) do |record|
-        Document.create(code:  record['code'])
+      params["records"].each do |record|
+        @request.documents << Document.new(code: record[:code], skip_barcode_validation: true) unless record[:code].blank?
       end
       params["documents"].try(:each) do |document_id|
         document = Document.find(document_id)
@@ -71,4 +84,5 @@ class RequestsController < ApplicationController
   def load_request
     @request = Request.find(params[:id])
   end
+
 end

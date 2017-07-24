@@ -10,7 +10,8 @@ class RequestSenderJob < ApplicationJob
 
   def send_request
     entries = @request.entries.includes(:document).pluck(:code)
-    RequestMailer.notification(@request.employee, entries).deliver_later
+    new_documents = @request.documents.pluck(:code)
+    RequestMailer.notification(@request.employee, entries, new_documents).deliver_later
   end
 
   def update_request_status

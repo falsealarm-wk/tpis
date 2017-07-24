@@ -1,19 +1,15 @@
 class Request < ApplicationRecord
   belongs_to :employee
   has_many :entries, dependent: :destroy
+  has_many :documents
 
   accepts_nested_attributes_for :entries
-
   scope :active, -> { includes(:entries).where(sent: true, closed: false) }
 
   after_create :send_request
 
   def checked
-    if entries.where(checked: false).count > 0
-      return false
-    else
-      return true
-    end
+    (entries.where(checked: false).any? || documents.any?) ? false : true
   end
 
   def close

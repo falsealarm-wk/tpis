@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root 'dashboard#index'
   resources :requests do
     get :details, on: :member
+    put :verify_documents, on: :member
     get :close, on: :member
     get :add_new_record, on: :collection
   end
