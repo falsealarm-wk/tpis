@@ -32,6 +32,6 @@ class Document < ApplicationRecord
   end
 
   def release
-    update!(taken: true)
+    update!(taken: false)
   end
 end

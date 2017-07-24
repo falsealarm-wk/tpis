@@ -2,7 +2,7 @@ jQuery(document).on 'turbolinks:load', ->
   $('#prolong_entries').select2
     tags: true
     ajax: {
-      url: '/entries'
+      url: '/documents'
       data: (params) ->
         {
           barcode: params.term,

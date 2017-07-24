@@ -5,11 +5,7 @@ class EntriesController < ApplicationController
   respond_to :js, only: [:index,:notify,:check]
 
   def index
-    if params[:barcode]
-      employee = Employee.find(params[:employee_id])
-      documents_ids = employee.open_entries.pluck(:document_id)
-      @entries = Document.where(id: documents_ids).search_by_barcode(params[:barcode])
-    elsif params[:employee_id]
+    if params[:employee_id]
       employee = Employee.find(params[:employee_id])
       @entries = employee.open_entries
     else
