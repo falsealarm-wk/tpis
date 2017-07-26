@@ -4,11 +4,11 @@ class DocumentsController < ApplicationController
   respond_to :json, only: [:index]
 
   def index
-    if params[:barcode]
+    if params[:employee_id]
       employee = Employee.find(params[:employee_id])
       documents_ids = employee.open_entries.pluck(:document_id)
       @documents = Document.where(id: documents_ids).search_by_barcode(params[:barcode])
-    elsif params[:employee_id]
+    elsif params[:barcode]
       employee = Employee.find(params[:employee_id])
       documents_ids = employee.open_entries.pluck(:document_id)
       @documents = Document.where(id: documents_ids).search_by_barcode(params[:barcode])

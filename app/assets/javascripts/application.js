@@ -34,13 +34,17 @@ $(document).on("turbolinks:load", function(){
     if (event.which == 13){
       event.preventDefault();
       $(".add_document_link").click()
-      // var nextInputs = $(".documents_code input, .documents_barcode input")
-      // console.log(nextInputs.index(this))
-      // var nextInput = nextInputs.get(nextInputs.index(this) + 1);
-      //   console.log(nextInput)
-      // if (nextInput) {
-      //   nextInput.focus
-      // }
+    }
+  })
+
+  $('body').on("keypress","#new_documents_form .documents_barcode input", function(event){
+    if (event.which == 13){
+      event.preventDefault();
+      var nextInputs = $(".documents_barcode input")
+      var nextInput = nextInputs.get(nextInputs.index(this) + 1);
+      if (nextInput) {
+        nextInput.focus()
+      }
     }
   })
 
@@ -60,6 +64,7 @@ $(document).on("turbolinks:load", function(){
           targets: 1,
           render: $.fn.dataTable.render.ellipsis( 20 )
     }],
+    order: [[0, "desc"]],
     fixedColumns: true,
     scrollY:        '50vh',
     scrollCollapse: true,
@@ -186,6 +191,7 @@ $(document).on("turbolinks:load", function(){
     //       targets: 1,
     //       render: $.fn.dataTable.render.ellipsis( 20 )
     // }],
+    order: [[ 2, 'desc']],
     fixedColumns: true,
     scrollY:        '50vh',
     scrollCollapse: true,
@@ -272,46 +278,6 @@ $(document).on("turbolinks:load", function(){
       ]
   });
 
-  // function format ( d ) {
-  //     // `d` is the original data object for the row
-  //   return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
-  //       '<tr>'+
-  //           '<td>Full name:</td>'+
-  //           '<td>'+d.id+'</td>'+
-  //       '</tr>'+
-  //       '<tr>'+
-  //           '<td>Extension number:</td>'+
-  //           '<td>'+d.employee+'</td>'+
-  //       '</tr>'+
-  //       '<tr>'+
-  //           '<td>Extra info:</td>'+
-  //           '<td>And any further details here (images etc)...</td>'+
-  //       '</tr>'+
-  //   '</table>';
-  // }
-
-  function format ( d ) {
-    rows = d.entries
-    details_table.clear().rows.add(rows).draw();
-    return $('#outer_table').html()
-  }
-
-  // $('#requests_table tbody').on('click', 'td.details-control', function () {
-  //   var tr = $(this).closest('tr');
-  //   var row = requests_table.row( tr );
-
-  //   if ( row.child.isShown() ) {
-  //     // This row is already open - close it
-  //     row.child.hide();
-  //     tr.removeClass('shown');
-  //   }
-  //   else {
-  //     // Open this row
-  //     row.child( format(row.data()) ).show();
-  //     tr.addClass('shown');
-  //   }
-  // });
-
   $('#documents_form').on("keypress",".documents_code input", function(event){
     if (event.which == 13){
       event.preventDefault();
@@ -324,12 +290,6 @@ $(document).on("turbolinks:load", function(){
 
   })
 
-  // $('#documents_form').keydown(function(event){
-  //   if(event.keyCode == 13) {
-  //     event.preventDefault();
-  //     return false;
-  //   }
-  // });
   $.fn.dataTableExt.sErrMode = "console";
   Materialize.updateTextFields();
   $('.modal').modal();

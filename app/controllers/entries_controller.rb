@@ -10,9 +10,9 @@ class EntriesController < ApplicationController
       @entries = employee.open_entries
     else
       if params[:archive] == 'true'
-        @entries = Entry.includes(:employee, :document).where(closed: true).page(params[:page])
+        @entries = Entry.includes(:employee, :document, :request).where(closed: true, requests: {closed: true}).page(params[:page])
       else
-        @entries = Entry.includes(:employee, :document).where(closed: false).page(params[:page])
+        @entries = Entry.includes(:employee, :document, :request).where(closed: false, requests: {closed: true}).page(params[:page])
       end
     end
     respond_with @entries
@@ -29,7 +29,7 @@ class EntriesController < ApplicationController
         entry = Entry.create(document_id: document_id, employee_id: params[:employee_id])
       end
     end
-    respond_with '', location: -> { entries_path }
+    respond_with '', location: -> { new_entry_path }
   end
 
   def edit

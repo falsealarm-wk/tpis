@@ -5,7 +5,7 @@
         %i.material-icons check_box
       -else
         %i.material-icons check_box_outline_blank
-  %td=entry.document.code
-  %td=entry.created_at.strftime("%d.%m.%Y")
-  %td=entry.expired_at.strftime("%d.%m.%Y")
-  %td=bool_to_text(entry.closed)
+  =ellipsis(entry.document.code)
+  / %td=entry.created_at.strftime("%d.%m.%Y")
+  / %td=entry.expired_at.strftime("%d.%m.%Y")
+  / %td=bool_to_text(entry.closed)
