@@ -1,4 +1,5 @@
 class EmployeesController < ApplicationController
+  before_action :authenticate_user!, except: [:new, :create]
   before_action :load_employee, only: [:edit, :update, :destroy]
   respond_to :json, only: :index
   def index

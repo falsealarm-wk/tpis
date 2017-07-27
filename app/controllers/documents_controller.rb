@@ -1,4 +1,5 @@
 class DocumentsController < ApplicationController
+  before_action :authenticate_user!, except: :index
   before_action :load_document, only: [:edit, :update, :destroy, :reprint]
   respond_to :js, only: [:add_new_document, :find, :reprint]
   respond_to :json, only: [:index]

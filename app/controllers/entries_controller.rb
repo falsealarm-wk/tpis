@@ -1,4 +1,5 @@
 class EntriesController < ApplicationController
+  before_action :authenticate_user!
   before_action :load_entry, only: [:edit, :update, :destroy, :notify, :check]
   before_action :check_documents, only: :create
   respond_to :json, only: [:index]

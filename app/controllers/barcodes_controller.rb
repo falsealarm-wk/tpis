@@ -1,4 +1,5 @@
 class BarcodesController < ApplicationController
+  before_action :authenticate_user!
   respond_to :json
 
   after_action :print, only: [:create]

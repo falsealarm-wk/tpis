@@ -1,9 +1,29 @@
-%h2 Log in
-= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  .form-inputs
-    = f.input :email, required: false, autofocus: true
-    = f.input :password, required: false
-    = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
-  .form-actions
-    = f.button :submit, "Log in"
-= render "devise/shared/links"
+.row
+  .col.s6.offset-s3
+    .card-panel.blue-grey.center-align
+      %h2.white-text Войти
+      = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .row
+          .form-inputs
+            = f.input :email, label: 'Почтовый ящик', required: false, autofocus: true, wrapper_html: { class: 's12' }
+            = f.input :password, label: 'Пароль', required: false, wrapper_html: { class: 's12' }
+            = f.input :remember_me, label: 'Запомнить меня', as: :boolean, wrapper_html: { class: 's12' } if devise_mapping.rememberable?
+        .row
+          .form-actions
+            = f.button :submit, "Войти"
+
+
+/ .row
+/   .col.s12.m6
+/     .card-panel
+/       .row
+/         %h4.panel-title.white-text.left Войти
+/       .row
+/         = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+/           .form-inputs
+/             = f.input :email, required: false, autofocus: true
+/             = f.input :password, required: false
+/             = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
+/           .form-actions
+/             = f.button :submit, "Log in"
+/         = render "devise/shared/links"

@@ -1,4 +1,5 @@
 class RequestsController < ApplicationController
+  # before_action :authenticate_user!
   before_action :check_documents, only: :create
   before_action :load_request, only: [:details, :close, :verify_documents]
   # after_action :send_request, only: :create

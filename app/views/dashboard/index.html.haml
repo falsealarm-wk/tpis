@@ -1,70 +1,90 @@
-.row
-  .col.s12.m6
-    .card.blue-grey.darken-1
-      .card-content.white-text
-        %span.card-title.grey-text.text-lighten-1 Запросить документы
-        %i.material-icons.grey-text.text-lighten-4 party_mode
-        %p
-          Создание заявки. Выберите необходимые техпроцессы и отправьте заявку
-      .card-action
-        =link_to "Запросить", new_request_path
+-if user_signed_in?
+  .row
+    .col.s12.m6
+      .card.blue-grey.darken-1
+        .card-content.white-text
+          %span.card-title.grey-text.text-lighten-1 Запросить документы
+          %i.material-icons.grey-text.text-lighten-4 party_mode
+          %p
+            Создание заявки. Выберите необходимые техпроцессы и отправьте заявку
+        .card-action
+          =link_to "Запросить", new_request_path
 
-  .col.s12.m6
-    .card.blue-grey.darken-1
-      .card-content.white-text
-        %span.card-title.grey-text.text-lighten-1 Работа с документами
-        %i.material-icons.grey-text.text-lighten-4 folder_shared
-        %p
-          Принятие документа у работника. Выберите операцию сдачи или выдачи
-      .card-action
-        =link_to "Выдать", new_entry_path
-        =link_to "Принять", receive_entries_path
-        =link_to "Заявки", requests_path
+    .col.s12.m6
+      .card.blue-grey.darken-1
+        .card-content.white-text
+          %span.card-title.grey-text.text-lighten-1 Работа с документами
+          %i.material-icons.grey-text.text-lighten-4 folder_shared
+          %p
+            Принятие документа у работника. Выберите операцию сдачи или выдачи
+        .card-action
+          =link_to "Выдать", new_entry_path
+          =link_to "Принять", receive_entries_path
+          =link_to "Заявки", requests_path
 
-.row
-  .col.s12.m6
-    .card.blue-grey.darken-1
-      .card-content.white-text
-        %span.card-title.grey-text.text-lighten-1 Учет сотрудников
-        %i.material-icons.grey-text.text-lighten-4 group
-        %p
-          Создание и редактирование сотрудников. Получение контактных данных сотрудника
-          и его текущих документов
-      .card-action
-        =link_to "Создать", new_employee_path
-        =link_to "Список", employees_path
-  .col.s12.m6
-    .card.blue-grey.darken-1
-      .card-content.white-text
-        %span.card-title.grey-text.text-lighten-1 Техпроцессы
-        %i.material-icons.grey-text.text-lighten-4 library_books
-        %p
-          Добавление и редактирование техпроцессов
-      .card-action
-        =link_to "Создать", new_document_path
-        =link_to "Список", documents_path
-.row
-  .col.s12.m6
-    .card.blue-grey.darken-1
-      .card-content.white-text
-        %span.card-title.grey-text.text-lighten-1 Записи журнала
-        %i.material-icons.grey-text.text-lighten-4 history
-        %p
-          Просмотр журнала выдачи документов. Отправка оповещений и продление.
-      .card-action
-        =link_to "Продлить", prolong_entries_path
-        =link_to "Список", entries_path(archive: :false)
-        =link_to "Архив", entries_path(archive: :true)
-  .col.s12.m6
-    .card.blue-grey.darken-1
-      .card-content.white-text
-        %span.card-title.grey-text.text-lighten-1 Штрихкодирование
-        %i.material-icons.grey-text.text-lighten-4 print
-        %p
-          Печать штрихкодов
-      .card-action
-        =link_to "Напечатать", new_barcode_path
-        =link_to "Список", barcodes_path
+  .row
+    .col.s12.m6
+      .card.blue-grey.darken-1
+        .card-content.white-text
+          %span.card-title.grey-text.text-lighten-1 Учет сотрудников
+          %i.material-icons.grey-text.text-lighten-4 group
+          %p
+            Создание и редактирование сотрудников. Получение контактных данных сотрудника
+            и его текущих документов
+        .card-action
+          =link_to "Создать", new_employee_path
+          =link_to "Список", employees_path
+    .col.s12.m6
+      .card.blue-grey.darken-1
+        .card-content.white-text
+          %span.card-title.grey-text.text-lighten-1 Техпроцессы
+          %i.material-icons.grey-text.text-lighten-4 library_books
+          %p
+            Добавление и редактирование техпроцессов
+        .card-action
+          =link_to "Создать", new_document_path
+          =link_to "Список", documents_path
+  .row
+    .col.s12.m6
+      .card.blue-grey.darken-1
+        .card-content.white-text
+          %span.card-title.grey-text.text-lighten-1 Записи журнала
+          %i.material-icons.grey-text.text-lighten-4 history
+          %p
+            Просмотр журнала выдачи документов. Отправка оповещений и продление.
+        .card-action
+          =link_to "Продлить", prolong_entries_path
+          =link_to "Список", entries_path(archive: :false)
+          =link_to "Архив", entries_path(archive: :true)
+    .col.s12.m6
+      .card.blue-grey.darken-1
+        .card-content.white-text
+          %span.card-title.grey-text.text-lighten-1 Штрихкодирование
+          %i.material-icons.grey-text.text-lighten-4 print
+          %p
+            Печать штрихкодов
+        .card-action
+          =link_to "Напечатать", new_barcode_path
+          =link_to "Список", barcodes_path
 
 
-
+-else
+  .row
+    .col.s12.m6
+      .card.blue-grey.darken-1
+        .card-content.white-text
+          %span.card-title.grey-text.text-lighten-1 Запросить документы
+          %i.material-icons.grey-text.text-lighten-4 party_mode
+          %p
+            Создание заявки. Выберите необходимые техпроцессы и отправьте заявку
+        .card-action
+          =link_to "Запросить", new_request_path
+    .col.s12.m6
+      .card.blue-grey.darken-1
+        .card-content.white-text
+          %span.card-title.grey-text.text-lighten-1 Учет сотрудников
+          %i.material-icons.grey-text.text-lighten-4 group
+          %p
+            Добавьте себя, если Вас нет в списке работников
+        .card-action
+          =link_to "Добавить", new_employee_path
