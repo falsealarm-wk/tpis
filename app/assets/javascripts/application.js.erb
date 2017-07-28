@@ -77,7 +77,7 @@ $(document).on("turbolinks:load", function(){
       url: '/entries.json?archive='+isArchive
     },
     "language": {
-                  "url": "assets/dataTables.russian.lang"
+                  "url": "<%= asset_path('dataTables.russian.lang') %>"
     },
     columns: [
       { data: 'id' },
@@ -120,7 +120,7 @@ $(document).on("turbolinks:load", function(){
       url: '/employees.json'
     },
     "language": {
-                  "url": "assets/dataTables.russian.lang"
+                  "url": "<%= asset_path('dataTables.russian.lang') %>"
     },
     columns: [
       { data: 'name' },
@@ -162,7 +162,7 @@ $(document).on("turbolinks:load", function(){
       url: '/documents.json'
     },
     "language": {
-                  "url": "assets/dataTables.russian.lang"
+                  "url": "<%= asset_path('dataTables.russian.lang') %>"
     },
     columns: [
       { data: 'id' },
@@ -204,7 +204,7 @@ $(document).on("turbolinks:load", function(){
       url: '/requests.json'
     },
     "language": {
-                  "url": "assets/dataTables.russian.lang"
+                  "url": "<%= asset_path('dataTables.russian.lang') %>"
     },
     columns: [
       { data: 'url',
@@ -258,7 +258,7 @@ $(document).on("turbolinks:load", function(){
       ordering: false,
       'data': rows,
       "language": {
-                    "url": "assets/dataTables.russian.lang"
+                    "url": "<%= asset_path('dataTables.russian.lang') %>"
       },
       columns: [
         { data: 'document' },
