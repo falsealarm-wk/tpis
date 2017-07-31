@@ -6,6 +6,10 @@ class Document < ApplicationRecord
   has_many :entries, dependent: :destroy
   belongs_to :request, optional: true
   default_scope -> { order('created_at DESC') }
+  scope :for_release, -> { unscoped.includes(entries: :request).where(taken: true, entries: {closed: true}, requests: {closed: true})
+                          .or unscoped.includes(entries: :request).where(taken: true, entries: {document_id: nil}, requests: {id: nil})
+                         }
+
   pg_search_scope :search_by_code, against: [:code],
     using: {
       tsearch: {

@@ -17,4 +17,8 @@ every 1.day, at: '8am' do
   runner "NotificationSenderJob.perform_now"
 end
 
+every 2.hours do
+  runner "DocumentReleaseJob.perform_now"
+end
+
 # Learn more: http://github.com/javan/whenever
