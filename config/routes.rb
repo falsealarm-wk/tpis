@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     post :extend, on: :collection
     post :notify, on: :member
     put :check, on: :member
+    post :done, on: :member
   end
   resources :employees do
     resources :entries, only: [:index]

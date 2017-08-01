@@ -12,6 +12,11 @@ class Entry < ApplicationRecord
     update!(checked: !checked)
   end
 
+  def done
+    update!(closed: !closed)
+    document.release
+  end
+
   private
 
   def set_expiration
@@ -21,4 +26,5 @@ class Entry < ApplicationRecord
   def take_document
     document.update!(taken: true)
   end
+
 end

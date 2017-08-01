@@ -81,6 +81,11 @@ $(document).on("turbolinks:load", function(){
     },
     columns: [
       { data: 'id' },
+      { data: 'url',
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).html("<a title='Закрыть' data-remote='true' rel='nofollow' data-method='post' href='"+oData.url+"/done'><i class='material-icons'>block</i></a>");
+        }
+      },
       { data: 'document' },
       { data: 'employee' },
       { data: 'created_at' },
