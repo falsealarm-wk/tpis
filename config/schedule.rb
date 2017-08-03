@@ -21,4 +21,7 @@ every 2.hours do
   runner "DocumentReleaseJob.perform_now"
 end
 
+every 2.months do
+  rake "log:clean"
+end
 # Learn more: http://github.com/javan/whenever

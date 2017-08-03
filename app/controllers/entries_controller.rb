@@ -62,21 +62,8 @@ class EntriesController < ApplicationController
         entry.update!(expired_at: (entry.expired_at + 1.month))
       end
     end
-    respond_with ''
+    respond_with '', location: -> {  prolong_entries_path }
   end
-
-  # def extend
-  #   if params[:entry_id]
-  #     entry = Entry.find(params[:entry_id])
-  #     entry.update!(expired_at: (entry.expired_at + 1.month))
-  #   else
-  #     params["documents"].each do |document_id|
-  #       entry = Entry.where(document_id: document_id, employee_id: params[:employee_id], closed: false).first
-  #       entry.update!(expired_at: (entry.expired_at + 1.month))
-  #     end
-  #   end
-  #   respond_with '', location: -> { entries_path( archive: params[:archive]) }
-  # end
 
   def close
     params["documents"].each do |document_id|
