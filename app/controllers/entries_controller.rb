@@ -3,7 +3,7 @@ class EntriesController < ApplicationController
   before_action :load_entry, only: [:edit, :update, :destroy, :notify, :check, :done]
   before_action :check_documents, only: :create
   respond_to :json, only: [:index]
-  respond_to :js, only: [:index,:notify,:check]
+  respond_to :js, only: [:index,:notify,:check,:extend,:destroy,:done]
 
   def index
     if params[:employee_id]
@@ -43,7 +43,7 @@ class EntriesController < ApplicationController
   end
 
   def destroy
-    respond_with @entry.destroy, location: -> { entries_path( archive: params[:archive]) }
+    respond_with @entry.destroy
   end
 
   def prolong
@@ -62,8 +62,21 @@ class EntriesController < ApplicationController
         entry.update!(expired_at: (entry.expired_at + 1.month))
       end
     end
-    respond_with '', location: -> { entries_path( archive: params[:archive]) }
+    respond_with ''
   end
+
+  # def extend
+  #   if params[:entry_id]
+  #     entry = Entry.find(params[:entry_id])
+  #     entry.update!(expired_at: (entry.expired_at + 1.month))
+  #   else
+  #     params["documents"].each do |document_id|
+  #       entry = Entry.where(document_id: document_id, employee_id: params[:employee_id], closed: false).first
+  #       entry.update!(expired_at: (entry.expired_at + 1.month))
+  #     end
+  #   end
+  #   respond_with '', location: -> { entries_path( archive: params[:archive]) }
+  # end
 
   def close
     params["documents"].each do |document_id|
@@ -88,7 +101,7 @@ class EntriesController < ApplicationController
 
   def done
     @entry.done
-    respond_with '', location: -> { entries_path( archive: params[:archive]) }
+    respond_with @entry
   end
 
   private
