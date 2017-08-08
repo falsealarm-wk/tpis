@@ -10,4 +10,8 @@ class Employee < ApplicationRecord
   validates :uuid, uniqueness: true
   validates :name, uniqueness: true
   validates :name, :department, presence: true
+
+  def uniq_name
+    "#{name} (#{department}) #{phone} "
+  end
 end

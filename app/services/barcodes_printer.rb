@@ -19,11 +19,5 @@ class BarcodesPrinter
 
   def print_barcodes
     get_api_call()
-    # CSV.open(@file_path, "wb") do |csv|
-    #   csv << ["barcode"]
-    #   @barcodes.find_each do |barcode|
-    #     csv << [barcode.barcode]
-    #   end
-    # end
   end
 end

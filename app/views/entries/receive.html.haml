@@ -4,7 +4,7 @@
       %h4.panel-title.white-text Принять ДОКУМЕНТЫ
       = form_tag '/entries/close', method: :post do
         .row
-          = select_tag "employee_id", options_from_collection_for_select(Employee.all, "id", "name"), style: 'display: block;'
+          = select_tag "employee_id", options_from_collection_for_select(Employee.all, "id", "uniq_name"), style: 'display: block;'
         .row
           = label_tag 'Принять документы'
           = select_tag 'prolong_entries', nil, style: 'width: 100%', multiple: 'multiple', name: 'documents[]'

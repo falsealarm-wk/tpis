@@ -4,7 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
 
+
   def self.admin
-    first
+    where(admin: true).first || first
   end
 end

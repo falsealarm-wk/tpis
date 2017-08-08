@@ -41,7 +41,7 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    params["documents"].each do |id, document|
+    params["documents"].each do |document|
       if (document[:code] && document[:barcode])
         document = Document.create(document_params(document))
       end
